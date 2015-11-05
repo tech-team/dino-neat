@@ -1,4 +1,3 @@
-QT += core
 QT -= gui
 
 TARGET = dino
@@ -24,3 +23,40 @@ HEADERS += \
     game.h
 
 QMAKE_CXXFLAGS += -std=c++14
+
+#DEFINES += SFML_STATIC
+
+unix {
+    DEFINES += PLATFORM_UNIX
+
+
+}
+
+win32 {
+    DEFINES += _WINDOWS
+    DEFINES += WIN32_LEAN_AND_MEAN
+
+    INCLUDEPATH += ./third_party/SFML/include
+    LIBS += -L"C:/Projects/Qt/dino-neat/dino/third_party/SFML/lib/"
+
+    LIBS += libFLAC
+    LIBS += libfreetype
+    LIBS += libjpeg
+    LIBS += libogg
+    LIBS += libopenal32
+    LIBS += libvorbis
+    LIBS += libvorbisenc
+    LIBS += libvorbisfile
+
+
+    LIBS += libsfml-audio
+    LIBS += libsfml-network
+    LIBS += libsfml-main
+    LIBS += libsfml-graphics
+    LIBS += libsfml-window
+    LIBS += libsfml-system
+}
+
+CONFIG(debug, debug|release) {
+    DEFINES += _DEBUG
+}

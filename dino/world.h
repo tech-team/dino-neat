@@ -1,8 +1,10 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include "player.h"
+#include <deque>
+
 #include "obstacle.h"
+#include "player.h"
 
 class World {
 public:
@@ -10,7 +12,7 @@ public:
 
 private:
     Player player_;
-    //cyclic_list<Obstacle> obstables_;
+    std::deque<Obstacle> obstables_;
 };
 
 #endif // WORLD_H

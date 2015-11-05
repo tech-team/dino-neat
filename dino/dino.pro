@@ -23,3 +23,4 @@ HEADERS += \
     player.h \
     game.h
 
+QMAKE_CXXFLAGS += -std=c++14

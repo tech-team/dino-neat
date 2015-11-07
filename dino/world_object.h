@@ -1,24 +1,19 @@
 #ifndef WORLDOBJECT_H
 #define WORLDOBJECT_H
 
-#include "point.h"
+#include <SFML/Graphics.hpp>
 
 class WorldObject {
 public:
     WorldObject();
 
-    Point origin() const;
-    double width() const;
-    double height() const;
+    virtual const sf::Drawable& getDrawable() const = 0;
+    virtual void update(float dt) = 0;
 
-    void set_origin(Point origin);
-    void set_width(double width);
-    void set_height(double height);
-
+    virtual void moveTo(sf::Vector2f pos) = 0;
+    virtual void move(sf::Vector2f delta) = 0;
 private:
-    Point origin_;
-    double width_;
-    double height_;
+
 };
 
 #endif // WORLDOBJECT_H

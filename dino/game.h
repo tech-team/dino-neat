@@ -10,13 +10,21 @@ class Game {
 public:
     Game(int fps);
 
-    void start();
-    void tick(double dt);
+    void startEventLoop();
+
+    void update(float dt);
+    void draw();
+
+    void onKeyPressed(sf::Event& event);
 
 private:
+    static constexpr int gameWidth_ = 800;
+    static constexpr int gameHeight_ = 600;
+    sf::RenderWindow window_;
+
+
     World world_;
     bool gameOver_ = false;
-    std::chrono::milliseconds frame_size_;
 };
 
 #endif // GAME_H

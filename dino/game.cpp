@@ -3,41 +3,63 @@
 #include <iostream>
 #include <thread>
 
-Game::Game(int fps) {
-    frame_size_ = std::chrono::milliseconds(int(1000.0 / fps));
+Game::Game(int fps)
+    : window_(sf::VideoMode(gameWidth_, gameHeight_, 32),
+              "Dino NEAT",
+              sf::Style::Titlebar | sf::Style::Close),
+      world_(sf::Vector2f(gameWidth_, gameHeight_)) {
+
+    window_.setFramerateLimit(30);
 }
 
-void Game::start() {
-    using namespace std::chrono;
-    using delta_t = std::chrono::duration<double, std::ratio<1, 1>>;
+void Game::startEventLoop() {
+    sf::Clock clock;
+    while (window_.isOpen()) {
+        sf::Event event;
+        while (window_.pollEvent(event)) {
+            switch (event.type) {
+            case sf::Event::Closed:
+                window_.close();
+                break;
+            case sf::Event::KeyPressed:
+                onKeyPressed(event);
+                break;
+            default:
 
-    auto start = system_clock::now();
-    auto end = system_clock::now();
+                break;
+            }
+        }
 
-    while (!gameOver_) {
-        double time_since_last_call =
-                duration_cast<delta_t>(system_clock::now() - start).count();
+        float dt = clock.restart().asSeconds();
+        update(dt);
 
-        start = system_clock::now();
-        tick(time_since_last_call);
-        end = system_clock::now();
-
-        auto dt = end - start;
-        std::this_thread::sleep_for(frame_size_ - dt);
+        window_.clear(sf::Color(0, 0, 0));
+        draw();
+        window_.display();
     }
 }
 
-/**
- * @brief This function should be called evenly by time
- * (regardless to the amount of time it will require to calculate world change)
- *
- * @param dt - will be normally ~1000 / fps, but can be bigger in case of lags
- */
-void Game::tick(double dt) {
-    static int pos = 0;
-    pos += dt * 10;
-    std::cout << "Tick: " << dt << "| pos: " << pos << std::endl;
+void Game::update(float dt) {
+    world_.update(dt);
+}
 
-    // payload time
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+void Game::draw() {
+    world_.draw(window_);
+}
+
+void Game::onKeyPressed(sf::Event& event) {
+    switch (event.key.code) {
+    case sf::Keyboard::Escape:
+        window_.close();
+        break;
+
+    case sf::Keyboard::Space:
+        // TODO
+        // isPlaying = true;
+        break;
+
+    default:
+
+        break;
+    }
 }

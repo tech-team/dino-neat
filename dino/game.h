@@ -19,6 +19,8 @@ public:
 
     void onKeyPressed(sf::Event& event);
 
+    void logRaster();
+
 private:
     static constexpr int gameWidth_ = 800;
     static constexpr int gameHeight_ = 600;

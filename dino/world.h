@@ -7,6 +7,7 @@
 #include "obstacle.h"
 #include "player.h"
 #include "timer.h"
+#include "world_rasterizer.h"
 
 class World {
 public:
@@ -21,6 +22,8 @@ public:
 
     double groundLevel() const;
 
+    std::vector<int> getWorldRaster() const;
+
 private:
     sf::Vector2f size_;
     double scrollSpeed_ = 20;
@@ -31,6 +34,8 @@ private:
 
     std::shared_ptr<Player> player_;
     std::deque<std::shared_ptr<Obstacle>> obstables_;
+
+    friend class WorldRasterizer;
 };
 
 #endif // WORLD_H

@@ -2,12 +2,13 @@
 
 #include "game.h"
 #include "world.h"
+#include "world_rasterizer.h"
 
 Player::Player(World& world)
-    : WorldObject(world),
+    : WorldObject(world, TileType::PLAYER),
       defaultPos_(100, world_.groundLevel()) {
 
-    sf::Vector2f size(30, 30);
+    sf::Vector2f size(15, 30);
     shape_.setSize(size - sf::Vector2f(3, 3));
     shape_.setOutlineThickness(3);
     shape_.setOutlineColor(sf::Color::Yellow);
@@ -44,6 +45,18 @@ void Player::moveTo(sf::Vector2f pos) {
 
 void Player::move(sf::Vector2f delta) {
     shape_.move(delta.x, delta.y);
+}
+
+void Player::rasterize(PlainWorld& raster, WorldRasterizer& rasterizer) const {
+    auto pos = shape_.getPosition();
+    auto size = shape_.getSize();
+    auto scaleFactor = rasterizer.scaleFactor();
+
+    for (int j = pos.y - size.y / 2; j < pos.y + size.y / 2; j += scaleFactor) {
+        for (int i = pos.x - size.x / 2; i < pos.x + size.x / 2; i += scaleFactor) {
+            raster.at(rasterizer.to1d(i, j)) = (int) tile_type_;
+        }
+    }
 }
 
 void Player::jump() {

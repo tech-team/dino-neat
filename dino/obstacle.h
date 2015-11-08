@@ -12,6 +12,7 @@ public:
 
     virtual void moveTo(sf::Vector2f pos) override;
     virtual void move(sf::Vector2f delta) override;
+    virtual void rasterize(PlainWorld& raster, WorldRasterizer& rasterizer) const override;
 
     bool isVisible();
 

@@ -12,7 +12,8 @@ SOURCES += main.cpp \
     obstacle.cpp \
     player.cpp \
     game.cpp \
-    timer.cpp
+    timer.cpp \
+    world_rasterizer.cpp
 
 HEADERS += \
     world_object.h \
@@ -20,7 +21,8 @@ HEADERS += \
     obstacle.h \
     player.h \
     game.h \
-    timer.h
+    timer.h \
+    world_rasterizer.h
 
 QMAKE_CXXFLAGS += -std=c++14
 

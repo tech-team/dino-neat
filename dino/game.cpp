@@ -60,8 +60,26 @@ void Game::onKeyPressed(sf::Event& event) {
         world_.playerJump();
         break;
 
+    case sf::Keyboard::R:
+        logRaster();
+        break;
+
     default:
 
         break;
+    }
+}
+
+void Game::logRaster() {
+    WorldRasterizer rasterizer(world_);
+    PlainWorld raster = rasterizer.rasterize();
+    double scaleFactor = rasterizer.scaleFactor();
+
+    for (int j = 0; j < gameHeight_ - scaleFactor; j += scaleFactor) {
+        for (int i = 0; i < gameWidth_ - scaleFactor; i += scaleFactor) {
+            //std::cout << ". type=" << raster.at(rasterizer.to1d(i, j)) << std::endl;
+            std::cout << raster.at(rasterizer.to1d(i, j)) << " ";
+        }
+        std::cout << std::endl;
     }
 }

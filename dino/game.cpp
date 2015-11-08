@@ -37,8 +37,8 @@ void Game::startEventLoop() {
         draw();
         window_.display();
 
-        //sf::Image img = window_.capture();
-        //img.getPixel(0, 0);
+//        sf::Image img = window_.capture();
+//        img.getPixel(0, 0);
     }
 }
 

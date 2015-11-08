@@ -29,6 +29,11 @@ QMAKE_CXXFLAGS += -std=c++14
 unix {
     DEFINES += PLATFORM_UNIX
 
+    LIBS += -lsfml-audio
+    LIBS += -lsfml-network
+    LIBS += -lsfml-graphics
+    LIBS += -lsfml-window
+    LIBS += -lsfml-system
 
 }
 

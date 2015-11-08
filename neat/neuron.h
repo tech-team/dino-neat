@@ -13,6 +13,11 @@ public:
 
     Neuron(int id, Type type = Type::HIDDEN);
 
+    double value() const;
+    void set_value(double value);
+
+    void add_input(Edge* edge);
+
     double activate();
 
 private:
@@ -22,7 +27,7 @@ private:
     Type type_ = Type::HIDDEN;
 
     std::vector<Edge*> in_;
-    double value_;
+    double value_ = 0;
 };
 
 #endif // NEURON_H

@@ -22,7 +22,7 @@ HEADERS += \
     game.h \
     timer.h
 
-QMAKE_CXXFLAGS += -std=c++14
+QMAKE_CXXFLAGS += -std=c++14 -O0
 
 #DEFINES += SFML_STATIC
 

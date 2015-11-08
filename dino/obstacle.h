@@ -5,7 +5,7 @@
 
 class Obstacle : public WorldObject {
 public:
-    Obstacle();
+    Obstacle(World& world);
 
     virtual const sf::Drawable& getDrawable() const override;
     virtual void update(float dt) override;

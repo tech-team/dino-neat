@@ -1,6 +1,7 @@
 #include "obstacle.h"
 
-Obstacle::Obstacle() {
+Obstacle::Obstacle(World& world)
+    : WorldObject(world) {
     sf::Vector2f size(30, 30);
     shape_.setSize(size - sf::Vector2f(3, 3));
     shape_.setOutlineThickness(3);
@@ -28,6 +29,5 @@ void Obstacle::move(sf::Vector2f delta) {
 }
 
 bool Obstacle::isVisible() {
-    // TODO: too rough
-    return shape_.getPosition().x > 100;
+    return shape_.getPosition().x > 0;
 }

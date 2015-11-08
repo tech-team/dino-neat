@@ -1,4 +1,5 @@
 #include "timer.h"
+#include "game.h"
 
 Timer::Timer(sf::Time time, Callback cb)
     : time_(time), cb_(cb) {

@@ -30,12 +30,15 @@ void Game::startEventLoop() {
             }
         }
 
-        float dt = clock.restart().asSeconds();
+        float dt = clock.restart().asSeconds() * TIME_SCALE;
         update(dt);
 
         window_.clear(sf::Color(0, 0, 0));
         draw();
         window_.display();
+
+        //sf::Image img = window_.capture();
+        //img.getPixel(0, 0);
     }
 }
 
@@ -54,8 +57,7 @@ void Game::onKeyPressed(sf::Event& event) {
         break;
 
     case sf::Keyboard::Space:
-        // TODO
-        // isPlaying = true;
+        world_.playerJump();
         break;
 
     default:

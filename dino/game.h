@@ -8,6 +8,8 @@
 
 class Game {
 public:
+    static constexpr float TIME_SCALE = 20;
+
     Game(int fps);
 
     void startEventLoop();

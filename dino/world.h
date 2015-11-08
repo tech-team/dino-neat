@@ -2,6 +2,7 @@
 #define WORLD_H
 
 #include <deque>
+#include <memory>
 
 #include "obstacle.h"
 #include "player.h"
@@ -16,16 +17,20 @@ public:
 
     void createObstacle();
 
+    void playerJump();
+
+    double groundLevel() const;
+
 private:
     sf::Vector2f size_;
-    double scrollSpeed_ = 100;
+    double scrollSpeed_ = 20;
 
     double groundLevel_ = 500;
 
     Timer obstacleCreationTimer_;
 
-    Player player_;
-    std::deque<Obstacle> obstables_;
+    std::shared_ptr<Player> player_;
+    std::deque<std::shared_ptr<Obstacle>> obstables_;
 };
 
 #endif // WORLD_H

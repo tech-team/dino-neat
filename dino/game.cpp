@@ -4,10 +4,10 @@
 #include <thread>
 
 Game::Game(int fps)
-    : window_(sf::VideoMode(gameWidth_, gameHeight_, 32),
+    : window_(sf::VideoMode(game_width_, game_height_, 32),
               "Dino NEAT",
               sf::Style::Titlebar | sf::Style::Close),
-      world_(sf::Vector2f(gameWidth_, gameHeight_)) {
+      world_(sf::Vector2f(game_width_, game_height_)) {
 
     window_.setFramerateLimit(30);
 }
@@ -31,23 +31,30 @@ void Game::startEventLoop() {
         }
 
         float dt = clock.restart().asSeconds() * TIME_SCALE;
+
         update(dt);
 
         window_.clear(sf::Color(0, 0, 0));
         draw();
         window_.display();
-
-//        sf::Image img = window_.capture();
-//        img.getPixel(0, 0);
     }
 }
 
 void Game::update(float dt) {
-    world_.update(dt);
+    if (!game_over_) {
+        game_over_ = world_.update(dt);
+    } else {
+        std::cout << "Game over: " << world_.score() << std::endl;
+        window_.close();
+    }
 }
 
 void Game::draw() {
-    world_.draw(window_);
+    if (!game_over_) {
+        world_.draw(window_);
+    } else {
+
+    }
 }
 
 void Game::onKeyPressed(sf::Event& event) {
@@ -75,8 +82,8 @@ void Game::logRaster() {
     PlainWorld raster = rasterizer.rasterize();
     double scaleFactor = rasterizer.scaleFactor();
 
-    for (int j = 0; j < gameHeight_ - scaleFactor; j += scaleFactor) {
-        for (int i = 0; i < gameWidth_ - scaleFactor; i += scaleFactor) {
+    for (int j = 0; j < game_height_ - scaleFactor; j += scaleFactor) {
+        for (int i = 0; i < game_width_ - scaleFactor; i += scaleFactor) {
             //std::cout << ". type=" << raster.at(rasterizer.to1d(i, j)) << std::endl;
             std::cout << raster.at(rasterizer.to1d(i, j)) << " ";
         }

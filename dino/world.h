@@ -16,7 +16,13 @@ public:
     World(sf::Vector2f size);
 
     void draw(sf::RenderWindow& window) const;
-    void update(float dt);
+
+    /**
+     * @brief Returns true in case of game over
+     * @param dt
+     * @return game_over
+     */
+    bool update(float dt);
 
     void createObstacle();
 
@@ -24,15 +30,20 @@ public:
 
     double groundLevel() const;
 
+    int score() const;
+
     std::vector<int> getWorldRaster() const;
 
     bool isPointOnScreen(int i, int j) const;
 
+    sf::Time randomTime(double min, double max) const;
+
 private:
     sf::Vector2f size_;
     double scrollSpeed_ = 20;
-
     double groundLevel_ = 500;
+
+    int score_ = 0;
 
     Timer obstacleCreationTimer_;
 

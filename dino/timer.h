@@ -8,9 +8,9 @@ class Timer {
 public:
     using Callback = std::function<void(Timer&)>;
 
-    Timer(sf::Time time, Callback cb);
-    void start();
-    void startOnce();
+    Timer(Callback cb);
+    void start(sf::Time time);
+    void startOnce(sf::Time time);
     void stop();
 
     void update();

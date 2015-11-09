@@ -16,6 +16,8 @@ public:
     virtual void move(sf::Vector2f delta) override;
     virtual void rasterize(PlainWorld& raster, WorldRasterizer& rasterizer) const override;
 
+    virtual bool collidesWith(RectangularObject& another) const;
+
 protected:
     sf::RectangleShape shape_;
 };

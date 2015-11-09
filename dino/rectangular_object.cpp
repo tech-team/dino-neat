@@ -27,3 +27,7 @@ void RectangularObject::rasterize(PlainWorld& raster, WorldRasterizer& rasterize
         }
     }
 }
+
+bool RectangularObject::collidesWith(RectangularObject& another) const {
+    return shape_.getGlobalBounds().intersects(another.shape_.getGlobalBounds());
+}

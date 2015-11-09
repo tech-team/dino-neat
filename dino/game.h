@@ -22,13 +22,12 @@ public:
     void logRaster();
 
 private:
-    static constexpr int gameWidth_ = 800;
-    static constexpr int gameHeight_ = 600;
+    static constexpr int game_width_ = 800;
+    static constexpr int game_height_ = 600;
     sf::RenderWindow window_;
 
-
     World world_;
-    bool gameOver_ = false;
+    bool game_over_ = false;
 };
 
 #endif // GAME_H

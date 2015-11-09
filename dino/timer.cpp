@@ -1,19 +1,23 @@
 #include "timer.h"
 #include "game.h"
 
-Timer::Timer(sf::Time time, Callback cb)
-    : time_(time), cb_(cb) {
+Timer::Timer(Callback cb)
+    : cb_(cb) {
 
 }
 
 
-void Timer::start() {
+void Timer::start(sf::Time time) {
+    time_ = time;
+
     isStarted_ = true;
     runOnce_ = false;
     clock_.restart();
 }
 
-void Timer::startOnce() {
+void Timer::startOnce(sf::Time time) {
+    time_ = time;
+
     isStarted_ = true;
     runOnce_ = true;
     clock_.restart();

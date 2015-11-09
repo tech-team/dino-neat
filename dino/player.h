@@ -1,9 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "world_object.h"
+#include "rectangular_object.h"
 
-class Player : public WorldObject {
+class Player : public RectangularObject {
 public:
     enum class State {
         RUN, JUMP
@@ -11,16 +11,11 @@ public:
 
     Player(World& world);
 
-    virtual const sf::Drawable& getDrawable() const override;
     virtual void update(float dt) override;
-    virtual void moveTo(sf::Vector2f pos) override;
-    virtual void move(sf::Vector2f delta) override;
-    virtual void rasterize(PlainWorld& raster, WorldRasterizer& rasterizer) const override;
 
     void jump();
 
 private:
-    sf::RectangleShape shape_;
     State state_ = State::RUN;
     sf::Clock jumpClock_;
 

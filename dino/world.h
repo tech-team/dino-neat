@@ -9,6 +9,8 @@
 #include "timer.h"
 #include "world_rasterizer.h"
 
+class Obstacle;
+
 class World {
 public:
     World(sf::Vector2f size);
@@ -23,6 +25,8 @@ public:
     double groundLevel() const;
 
     std::vector<int> getWorldRaster() const;
+
+    bool isPointOnScreen(int i, int j) const;
 
 private:
     sf::Vector2f size_;

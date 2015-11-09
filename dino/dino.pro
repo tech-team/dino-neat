@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     player.cpp \
     game.cpp \
     timer.cpp \
-    world_rasterizer.cpp
+    world_rasterizer.cpp \
+    rectangular_object.cpp
 
 HEADERS += \
     world_object.h \
@@ -22,7 +23,8 @@ HEADERS += \
     player.h \
     game.h \
     timer.h \
-    world_rasterizer.h
+    world_rasterizer.h \
+    rectangular_object.h
 
 QMAKE_CXXFLAGS += -std=c++14 -O0
 
@@ -45,6 +47,7 @@ win32 {
 
     INCLUDEPATH += ./third_party/SFML/include
     LIBS += -L"C:/Projects/Qt/dino-neat/dino/third_party/SFML/lib/"
+    LIBS += -L"C:/Projects/dino-neat/dino/third_party/SFML/lib/"
 
     LIBS += libFLAC
     LIBS += libfreetype

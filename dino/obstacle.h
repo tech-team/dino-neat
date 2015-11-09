@@ -1,23 +1,16 @@
 #ifndef OBSTACLE_H
 #define OBSTACLE_H
 
-#include "world_object.h"
+#include "rectangular_object.h"
+#include "world.h"
 
-class Obstacle : public WorldObject {
+class Obstacle : public RectangularObject {
 public:
     Obstacle(World& world);
 
-    virtual const sf::Drawable& getDrawable() const override;
     virtual void update(float dt) override;
 
-    virtual void moveTo(sf::Vector2f pos) override;
-    virtual void move(sf::Vector2f delta) override;
-    virtual void rasterize(PlainWorld& raster, WorldRasterizer& rasterizer) const override;
-
     bool isVisible();
-
-private:
-    sf::RectangleShape shape_;
 };
 
 #endif // OBSTACLE_H

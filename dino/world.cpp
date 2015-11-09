@@ -54,3 +54,7 @@ void World::playerJump() {
 double World::groundLevel() const {
     return groundLevel_;
 }
+
+bool World::isPointOnScreen(int i, int j) const {
+    return i >= 0 && j >= 0 && i < size_.x && j < size_.y;
+}

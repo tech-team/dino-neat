@@ -3,6 +3,8 @@
 
 #include "rectangular_object.h"
 
+class Obstacle;
+
 class Player : public RectangularObject {
 public:
     enum class State {
@@ -13,7 +15,8 @@ public:
 
     virtual void update(float dt) override;
 
-    void jump();
+    void jump();    
+    bool passedObstacle(Obstacle &obstacle) const;
 
 private:
     State state_ = State::RUN;

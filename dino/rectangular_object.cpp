@@ -6,6 +6,10 @@ const sf::Drawable& RectangularObject::getDrawable() const {
     return shape_;
 }
 
+const sf::RectangleShape& RectangularObject::shape() const {
+    return shape_;
+}
+
 
 void RectangularObject::moveTo(sf::Vector2f pos) {
     shape_.setPosition(pos.x, pos.y);

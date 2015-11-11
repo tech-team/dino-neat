@@ -10,23 +10,32 @@ SOURCES += main.cpp \
     world_object.cpp \
     world.cpp \
     obstacle.cpp \
+	rectangular_obstacle.cpp \
     player.cpp \
     game.cpp \
     timer.cpp \
     world_rasterizer.cpp \
-    rectangular_object.cpp
+    rectangular_object.cpp \
+    overlay.cpp \
+    obstacle_patterns/obstacle_pattern.cpp \
+    obstacle_patterns/triple_pattern.cpp
 
 HEADERS += \
     world_object.h \
     world.h \
     obstacle.h \
+	rectangular_obstacle.h \
     player.h \
     game.h \
     timer.h \
     world_rasterizer.h \
-    rectangular_object.h
+    rectangular_object.h \
+    overlay.h \
+    utils.h \	
+    obstacle_patterns/obstacle_pattern.h \
+    obstacle_patterns/triple_pattern.h
 
-QMAKE_CXXFLAGS += -std=c++14 -O0
+QMAKE_CXXFLAGS += -std=c++14
 
 #DEFINES += SFML_STATIC
 

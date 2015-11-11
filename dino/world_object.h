@@ -23,6 +23,8 @@ public:
 
     virtual void rasterize(PlainWorld& raster, WorldRasterizer& rasterizer) const = 0;
 
+    virtual void collidesWith(WorldObject& world_object) = 0;
+
 protected:
     World& world_;
     TileType tile_type_ = TileType::EMPTY;

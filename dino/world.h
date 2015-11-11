@@ -29,6 +29,7 @@ public:
     void playerJump();
 
     double groundLevel() const;
+    const sf::Vector2f& size() const;
 
     int score() const;
 

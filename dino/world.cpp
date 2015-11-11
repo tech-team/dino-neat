@@ -2,10 +2,14 @@
 
 #include <random>
 
+#include "rectangular_obstacle.h"
+
+class RectangularObstacle;
+
 World::World(sf::Vector2f size)
     : size_(size),
       obstacleCreationTimer_(
-          [this] (Timer& timer) {
+          [this] (Timer&) {
               createObstacle();
               obstacleCreationTimer_.startOnce(randomTime(0, 2));
           }) {
@@ -35,21 +39,22 @@ bool World::update(float dt) {
                          obstables_.end(),
                          [this] (auto& obstacle) {
 
-        bool visible = obstacle->isVisible();
-        if (!visible) {
-            ++score_;
-            return true;  // obstacle is invisible, remove it
-        }
-
-        return false;
+        return !obstacle->isVisible();
     }), obstables_.end());
 
     player_->update(dt);
 
-    // collision detection
     for (auto& obstacle: obstables_) {
+        // collision detection
         if (player_->collidesWith(*obstacle)) {
             return true;
+        }
+
+        // jump over detection
+        if (!obstacle->is_passed()
+                && player_->passedObstacle(*obstacle)) {
+            ++score_;
+            obstacle->set_passed(true);
         }
     }
 
@@ -59,7 +64,7 @@ bool World::update(float dt) {
 }
 
 void World::createObstacle() {
-    auto obstable = std::make_shared<Obstacle>(*this);
+    auto obstable = std::make_shared<RectangularObstacle>(*this);
     obstable->moveTo(sf::Vector2f(size_.x, groundLevel_));
 
     obstables_.emplace_back(obstable);
@@ -71,6 +76,10 @@ void World::playerJump() {
 
 double World::groundLevel() const {
     return groundLevel_;
+}
+
+const sf::Vector2f &World::size() const {
+    return size_;
 }
 
 int World::score() const {

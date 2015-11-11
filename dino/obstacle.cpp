@@ -4,20 +4,14 @@
 #include "world_rasterizer.h"
 
 Obstacle::Obstacle(World& world)
-    : RectangularObject(world, TileType::OBSTACLE) {
-    sf::Vector2f size(30, 30);
-    shape_.setSize(size - sf::Vector2f(3, 3));
-    shape_.setOutlineThickness(3);
-    shape_.setOutlineColor(sf::Color::Green);
-    shape_.setFillColor(sf::Color(0, 0, 0));
-    shape_.setOrigin(size / 2.f);
-}
-
-
-void Obstacle::update(float dt) {
+    : RectangularObject(world, TileType::Obstacle) {
 
 }
 
-bool Obstacle::isVisible() {
-    return shape_.getPosition().x > 0;
+void Obstacle::set_passed(bool passed) {
+    passed_ = passed;
+}
+
+bool Obstacle::is_passed() const {
+    return passed_;
 }

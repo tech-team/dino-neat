@@ -1,6 +1,7 @@
 #include "player.h"
 
 #include "game.h"
+#include "obstacle.h"
 #include "world.h"
 #include "world_rasterizer.h"
 
@@ -41,4 +42,11 @@ void Player::jump() {
 
     state_ = State::JUMP;
     jumpClock_.restart();
+}
+
+bool Player::passedObstacle(Obstacle& obstacle) const {
+    auto bounds = obstacle.shape().getGlobalBounds();
+
+    return shape_.getGlobalBounds().left >
+            bounds.left + bounds.width;
 }

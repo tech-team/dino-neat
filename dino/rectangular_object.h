@@ -11,6 +11,7 @@ public:
     using WorldObject::WorldObject;
 
     const sf::Drawable& getDrawable() const;
+    const sf::RectangleShape& shape() const;
 
     virtual void moveTo(sf::Vector2f pos) override;
     virtual void move(sf::Vector2f delta) override;

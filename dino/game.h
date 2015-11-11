@@ -4,7 +4,7 @@
 #include <chrono>
 
 #include "world.h"
-
+#include "overlay.h"
 
 class Game {
 public:
@@ -27,6 +27,7 @@ private:
     sf::RenderWindow window_;
 
     World world_;
+    Overlay overlay_;
     bool game_over_ = false;
 };
 

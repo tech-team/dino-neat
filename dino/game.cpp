@@ -43,6 +43,7 @@ void Game::startEventLoop() {
 void Game::update(float dt) {
     if (!game_over_) {
         game_over_ = world_.update(dt);
+        overlay_.set_score(world_.score());
     } else {
         std::cout << "Game over: " << world_.score() << std::endl;
         window_.close();
@@ -52,6 +53,7 @@ void Game::update(float dt) {
 void Game::draw() {
     if (!game_over_) {
         world_.draw(window_);
+        overlay_.draw(window_);
     } else {
 
     }

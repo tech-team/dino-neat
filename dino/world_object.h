@@ -1,11 +1,13 @@
-#ifndef WORLDOBJECT_H
-#define WORLDOBJECT_H
+#ifndef WORLD_OBJECT_H
+#define WORLD_OBJECT_H
 
 #include <SFML/Graphics.hpp>
+
 
 #include "world_rasterizer.h"
 
 class World;
+class RectangularObject;
 
 class WorldObject {
 public:
@@ -21,13 +23,17 @@ public:
     virtual void moveTo(sf::Vector2f pos) = 0;
     virtual void move(sf::Vector2f delta) = 0;
 
+    virtual sf::Vector2f getPosition() const = 0;
+
     virtual void rasterize(PlainWorld& raster, WorldRasterizer& rasterizer) const = 0;
 
-    virtual void collidesWith(WorldObject& world_object) = 0;
+    virtual bool collidesWith(const WorldObject& object) const;
+    virtual bool collidesWith(const RectangularObject& object) const;
+
 
 protected:
     World& world_;
     TileType tile_type_ = TileType::EMPTY;
 };
 
-#endif // WORLDOBJECT_H
+#endif // WORLD_OBJECT_H

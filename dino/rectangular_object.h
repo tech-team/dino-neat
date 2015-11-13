@@ -1,14 +1,16 @@
-#ifndef RECTANGLEOBJECT_H
-#define RECTANGLEOBJECT_H
+#ifndef RECTANGULAR_OBJECT_H
+#define RECTANGULAR_OBJECT_H
 
 #include <SFML/Graphics.hpp>
 
 #include "world_object.h"
-#include "world_rasterizer.h"
+class RectangularObstacle;
 
-class RectangularObject : public WorldObject {
+class WorldRasterizer;
+
+class RectangularObject : virtual public WorldObject {
 public:
-    using WorldObject::WorldObject;
+    RectangularObject(World& world, TileType tile_type = TileType::EMPTY);
 
     const sf::Drawable& getDrawable() const;
     const sf::RectangleShape& shape() const;
@@ -17,10 +19,13 @@ public:
     virtual void move(sf::Vector2f delta) override;
     virtual void rasterize(PlainWorld& raster, WorldRasterizer& rasterizer) const override;
 
-    virtual bool collidesWith(RectangularObject& another) const;
+    virtual sf::Vector2f getPosition() const override;
+
+    virtual bool collidesWith(const WorldObject& object) const override;
+    virtual bool collidesWith(const RectangularObject& object) const override;
 
 protected:
     sf::RectangleShape shape_;
 };
 
-#endif // RECTANGLEOBJECT_H
+#endif // RECTANGULAR_OBJECT_H

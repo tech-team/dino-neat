@@ -2,6 +2,13 @@
 
 #include "world.h"
 
+#include "rectangular_obstacle.h"
+
+RectangularObject::RectangularObject(World& world, WorldObject::TileType tile_type)
+    : WorldObject(world, tile_type) {
+
+}
+
 const sf::Drawable& RectangularObject::getDrawable() const {
     return shape_;
 }
@@ -32,6 +39,17 @@ void RectangularObject::rasterize(PlainWorld& raster, WorldRasterizer& rasterize
     }
 }
 
-bool RectangularObject::collidesWith(RectangularObject& another) const {
-    return shape_.getGlobalBounds().intersects(another.shape_.getGlobalBounds());
+
+sf::Vector2f RectangularObject::getPosition() const {
+    return shape_.getPosition();
+}
+
+
+bool RectangularObject::collidesWith(const WorldObject& object) const {
+    return object.collidesWith(*this);
+}
+
+bool RectangularObject::collidesWith(const RectangularObject& object) const {
+    return shape_.getGlobalBounds().intersects(
+                object.shape_.getGlobalBounds());
 }

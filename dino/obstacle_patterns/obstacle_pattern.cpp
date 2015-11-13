@@ -17,7 +17,7 @@ void ObstaclePattern::update(float dt) {
 
 void ObstaclePattern::moveTo(sf::Vector2f pos) {
     for (auto& obstacle: obstacles_) {
-        obstacle->move(pos - obstacle->shape().getPosition());
+        obstacle->move(pos - obstacle->getPosition());
     }
 }
 

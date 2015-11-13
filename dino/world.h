@@ -4,12 +4,12 @@
 #include <deque>
 #include <memory>
 
-#include "obstacle.h"
-#include "player.h"
 #include "timer.h"
-#include "world_rasterizer.h"
+
 
 class Obstacle;
+class Player;
+class WorldRasterizer;
 
 class World {
 public:

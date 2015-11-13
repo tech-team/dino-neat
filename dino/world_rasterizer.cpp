@@ -1,8 +1,11 @@
 #include "world_rasterizer.h"
 
-#include "world.h"
-
 #include <iostream>
+
+#include "world.h"
+#include "obstacle.h"
+#include "player.h"
+
 
 WorldRasterizer::WorldRasterizer(World& world)
     : world_(world),

@@ -3,8 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-class Overlay
-{
+class Overlay {
 public:
     Overlay();
     void draw(sf::RenderWindow& window) const;

@@ -1,10 +1,11 @@
 #ifndef OBSTACLE_H
 #define OBSTACLE_H
 
-#include "rectangular_object.h"
-#include "world.h"
+#include "world_object.h"
 
-class Obstacle : public WorldObject {
+class World;
+
+class Obstacle : virtual public WorldObject {
 public:
     Obstacle(World& world);
 	
@@ -13,7 +14,7 @@ public:
     virtual void set_passed(bool passed);
     virtual bool is_passed() const;
 
-private:
+protected:
     bool passed_ = false;
 };
 

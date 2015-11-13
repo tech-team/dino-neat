@@ -1,5 +1,5 @@
-#ifndef OBSTACLEPATTERN_H
-#define OBSTACLEPATTERN_H
+#ifndef OBSTACLE_PATTERN_H
+#define OBSTACLE_PATTERN_H
 
 #include <memory>
 #include <vector>
@@ -16,9 +16,9 @@ public:
     virtual void move(sf::Vector2f delta) override;
     virtual void rasterize(PlainWorld &raster, WorldRasterizer &rasterizer) const override;
 
-private:
+protected:
     int score_ = 0;
     std::vector<std::shared_ptr<Obstacle>> obstacles_;
 };
 
-#endif // OBSTACLEPATTERN_H
+#endif // OBSTACLE_PATTERN_H

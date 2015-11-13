@@ -4,7 +4,7 @@
 #include "world_rasterizer.h"
 
 Obstacle::Obstacle(World& world)
-    : RectangularObject(world, TileType::Obstacle) {
+    : WorldObject(world, TileType::OBSTACLE) {
 
 }
 

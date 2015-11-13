@@ -1,5 +1,5 @@
-#ifndef TRIPLEPATTERN_H
-#define TRIPLEPATTERN_H
+#ifndef TRIPLE_PATTERN_H
+#define TRIPLE_PATTERN_H
 
 #include "obstacle_pattern.h"
 
@@ -8,4 +8,4 @@ public:
     TriplePattern(World& world);
 };
 
-#endif // TRIPLEPATTERN_H
+#endif // TRIPLE_PATTERN_H

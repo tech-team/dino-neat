@@ -1,5 +1,5 @@
-#ifndef WORLDRASTERIZER_H
-#define WORLDRASTERIZER_H
+#ifndef WORLD_RASTERIZER_H
+#define WORLD_RASTERIZER_H
 
 #include <vector>
 
@@ -23,4 +23,4 @@ private:
     int scaleFactor_;
 };
 
-#endif // WORLDRASTERIZER_H
+#endif // WORLD_RASTERIZER_H

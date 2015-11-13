@@ -3,6 +3,8 @@
 #include <iostream>
 #include <thread>
 
+#include "world_rasterizer.h"
+
 Game::Game(int fps)
     : window_(sf::VideoMode(game_width_, game_height_, 32),
               "Dino NEAT",

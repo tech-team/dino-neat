@@ -1,10 +1,14 @@
 #include "triple_pattern.h"
 
-TriplePattern::TriplePattern(World& world) {
+#include "rectangular_obstacle.h"
+#include "world.h"
+
+TriplePattern::TriplePattern(World& world)
+    : ObstaclePattern(world) {
     for (int i = 0; i < 3; ++i) {
-        auto obstacle = std::make_shared(new Obstacle(world));
+        auto obstacle = std::make_shared<RectangularObstacle>(world);
         obstacle->move(sf::Vector2f(world.size().x + i * 30, world.groundLevel()));
-        obstacles_.push_back(o1);
+        obstacles_.push_back(obstacle);
     }
 }
 

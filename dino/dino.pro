@@ -33,7 +33,8 @@ HEADERS += \
     overlay.h \
     utils.h \	
     obstacle_patterns/obstacle_pattern.h \
-    obstacle_patterns/triple_pattern.h
+    obstacle_patterns/triple_pattern.h \
+    exceptions/not_implemented_exception.h
 
 QMAKE_CXXFLAGS += -std=c++14
 

@@ -7,6 +7,7 @@
 
 Player::Player(World& world)
     : RectangularObject(world, TileType::PLAYER),
+      WorldObject(world, TileType::PLAYER),
       defaultPos_(100, world_.groundLevel()) {
 
     sf::Vector2f size(15, 30);
@@ -44,9 +45,4 @@ void Player::jump() {
     jumpClock_.restart();
 }
 
-bool Player::passedObstacle(Obstacle& obstacle) const {
-    auto bounds = obstacle.shape().getGlobalBounds();
 
-    return shape_.getGlobalBounds().left >
-            bounds.left + bounds.width;
-}

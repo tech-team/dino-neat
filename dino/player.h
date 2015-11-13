@@ -3,6 +3,8 @@
 
 #include "rectangular_object.h"
 
+#include "rectangular_obstacle.h"
+
 class Obstacle;
 
 class Player : public RectangularObject {
@@ -15,8 +17,10 @@ public:
 
     virtual void update(float dt) override;
 
-    void jump();    
-    bool passedObstacle(Obstacle &obstacle) const;
+    void jump();
+
+    bool passedObstacle(Obstacle& obstacle) const;
+    bool passedObstacle(RectangularObstacle& obstacle) const;
 
 private:
     State state_ = State::RUN;

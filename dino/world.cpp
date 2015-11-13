@@ -2,9 +2,9 @@
 
 #include <random>
 
+#include "player.h"
 #include "rectangular_obstacle.h"
 
-class RectangularObstacle;
 
 World::World(sf::Vector2f size)
     : size_(size),
@@ -52,7 +52,7 @@ bool World::update(float dt) {
 
         // jump over detection
         if (!obstacle->is_passed()
-                && player_->passedObstacle(*obstacle)) {
+                && player_->getPosition().x > obstacle->getPosition().x) {
             ++score_;
             obstacle->set_passed(true);
         }

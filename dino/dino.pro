@@ -1,16 +1,17 @@
 QT -= gui
 
+I_WANT_LIB = false
+
 TARGET = dino
+
 CONFIG += console
 CONFIG -= app_bundle
 
-TEMPLATE = app
 
-SOURCES += main.cpp \
-    world_object.cpp \
+SOURCES += world_object.cpp \
     world.cpp \
     obstacle.cpp \
-        rectangular_obstacle.cpp \
+    rectangular_obstacle.cpp \
     player.cpp \
     game.cpp \
     timer.cpp \
@@ -26,7 +27,7 @@ HEADERS += \
     world_object.h \
     world.h \
     obstacle.h \
-        rectangular_obstacle.h \
+    rectangular_obstacle.h \
     player.h \
     game.h \
     timer.h \
@@ -44,9 +45,9 @@ HEADERS += \
 QMAKE_CXXFLAGS += -std=c++14
 
 
-#DEFINES += SFML_STATIC
-
 unix {
+    message(Building for unix)
+
     DEFINES += PLATFORM_UNIX
 
     LIBS += -lsfml-audio
@@ -58,8 +59,9 @@ unix {
 }
 
 win32 {
+    message(Building for win32)
+
     DEFINES += _WINDOWS
-    DEFINES += WIN32_LEAN_AND_MEAN
 
     INCLUDEPATH += ./third_party/SFML/include
     LIBS += -L"C:/Projects/Qt/dino-neat/dino/third_party/SFML/lib/"
@@ -81,6 +83,16 @@ win32 {
     LIBS += libsfml-graphics
     LIBS += libsfml-window
     LIBS += libsfml-system
+}
+
+equals(I_WANT_LIB, true) {
+    message(Building dino library)
+    TEMPLATE = lib
+    CONFIG = staticlib
+} else {
+    message(Building dino app)
+    TEMPLATE = app
+    SOURCES += main.cpp
 }
 
 CONFIG(debug, debug|release) {

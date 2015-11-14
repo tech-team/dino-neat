@@ -1,3 +1,4 @@
+#include "platform.h"
 #include "game.h"
 
 int main() {

@@ -1,10 +1,13 @@
 #ifndef CHROMOSOME_H
 #define CHROMOSOME_H
 
+#include "neat_config.h"
+
 class Net;
+class InnovationNumberGetter;
 class Chromosome {
 public:
-    Chromosome(Net* net);
+    Chromosome(const NeatConfig& conf, Net* net);
     Chromosome(const Chromosome& other) = delete;
     Chromosome(Chromosome&& ch);
 
@@ -18,16 +21,18 @@ public:
 
     void set_fitness(double fitness);
 
-    void mutateWeights(int innovation);
-    void mutateStructure(int innovation);
+    void mutateWeights();
+    void mutateStructure(InnovationNumberGetter* innov_getter);
     static Chromosome crossover(const Chromosome& ch1, const Chromosome& ch2);
 
 private:
-    void mutateAddConnection(int innovation);
-    void mutateAddNode(int innovation);
+    void mutateAddConnection(InnovationNumberGetter* innov_getter);
+    void mutateAddNode(InnovationNumberGetter* innov_getter);
 
     Net* net_;
     double fitness_ = 0;
+
+    const NeatConfig& conf_;
 };
 
 #endif // CHROMOSOME_H

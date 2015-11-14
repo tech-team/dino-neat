@@ -11,13 +11,17 @@ SOURCES += main.cpp \
     edge.cpp \
     genetic.cpp \
     net.cpp \
-    chromosome.cpp
+    chromosome.cpp \
+    util.cpp
 
 HEADERS += \
     neuron.h \
     edge.h \
     genetic.h \
     net.h \
-    chromosome.h
+    chromosome.h \
+    innovation_number_getter.h \
+    util.h \
+    neat_config.h
 
 QMAKE_CXXFLAGS += -Wall -std=c++14

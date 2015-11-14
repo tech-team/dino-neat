@@ -4,13 +4,17 @@
 
 #include "neuron.h"
 
-Edge::Edge(int innovation, Neuron* from, Neuron* to)
-    : innovation_(innovation),
-      from_(from),
+bool operator ==(const EdgeInfo& e1, const EdgeInfo& e2) {
+   return e1.from == e2.from && e1.to == e2.to;
+}
+
+Edge::Edge(Neuron* from, Neuron* to)
+    : from_(from),
       to_(to) {
     assert(from != nullptr);
     assert(to != nullptr);
-    assert(innovation_ > 0);
+
+    edge_info_ = EdgeInfo{from->id(), to->id()};
 
     to_->add_input(this);
 }
@@ -27,12 +31,16 @@ double Edge::w() const {
     return w_;
 }
 
-double Edge::innovation() const {
+int Edge::innovation() const {
     return innovation_;
 }
 
 bool Edge::is_enabled() const {
     return enabled_;
+}
+
+const EdgeInfo& Edge::edge_info() const {
+    return edge_info_;
 }
 
 void Edge::set_w(double w) {
@@ -41,4 +49,8 @@ void Edge::set_w(double w) {
 
 void Edge::set_enabled(bool enabled) {
     enabled_ = enabled;
+}
+
+void Edge::set_innovation(int innovation) {
+    innovation_ = innovation;
 }

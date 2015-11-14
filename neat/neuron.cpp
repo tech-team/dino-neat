@@ -8,6 +8,10 @@ Neuron::Neuron(int id, Type type)
 
 }
 
+int Neuron::id() const {
+    return id_;
+}
+
 double Neuron::value() const {
     return value_;
 }

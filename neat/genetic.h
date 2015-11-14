@@ -1,25 +1,25 @@
 #ifndef GENETIC_H
 #define GENETIC_H
 
+#include <unordered_map>
+
 #include "chromosome.h"
 #include "net.h"
+#include "innovation_number_getter.h"
+#include "edge.h"
+#include "neat_config.h"
 
-
-class Genetic
+class Genetic : public InnovationNumberGetter
 {
 public:
-    struct Config {
-        Net::Config net_conf;
-        int population_size;
-        int iterations_count;
-    };
-
     using Population = std::vector<Chromosome>;
 
-    Genetic(const Genetic::Config& conf);
+    Genetic(const NeatConfig& conf);
 
     int elapsed_iterations() const;
     void start();
+
+    int getInnovNumber(Edge* edge) override;
 
 private:
     void iteration();
@@ -29,9 +29,12 @@ private:
     double evalFitness(Chromosome& ch);
     void sortPopulation();
 
-    Genetic::Config conf_;
+    NeatConfig conf_;
     Population population_;
+    int innov_number_ = 0;
     int elapsed_iterations_ = 0;
+
+    std::unordered_map<EdgeInfo, Edge*> population_edges_;
 };
 
 #endif // GENETIC_H

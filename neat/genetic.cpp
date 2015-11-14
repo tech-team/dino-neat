@@ -2,11 +2,12 @@
 
 #include <algorithm>
 #include <iostream>
+#include <random>
 
-Genetic::Genetic(const Genetic::Config& conf)
+Genetic::Genetic(const NeatConfig& conf)
     : conf_(conf) {
     for (int i = 0; i < conf.population_size; ++i) {
-        population_.emplace_back(std::move(Chromosome(new Net(conf.net_conf))));
+        population_.emplace_back(std::move(Chromosome(conf_, new Net(conf.net_conf))));
     }
 }
 
@@ -22,13 +23,24 @@ void Genetic::start() {
     }
 }
 
+int Genetic::getInnovNumber(Edge* edge) {
+    auto existing_edge = population_edges_.find(edge->edge_info());
+    if (existing_edge == population_edges_.end()) {
+        ++innov_number_;
+        population_edges_[edge->edge_info()] = edge;
+        return innov_number_;
+    } else {
+        return existing_edge->second->innovation();
+    }
+}
+
 void Genetic::iteration() {
     evalPopulation();
     sortPopulation();
 
     for (auto& ch : population_) {
-        ch.mutateWeights(1);
-        ch.mutateStructure(1);
+        ch.mutateWeights();
+        ch.mutateStructure(this);
     }
     // mutate
     // crossover

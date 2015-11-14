@@ -13,6 +13,7 @@ public:
 
     Neuron(int id, Type type = Type::HIDDEN);
 
+    int id() const;
     double value() const;
     void set_value(double value);
 

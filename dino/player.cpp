@@ -6,8 +6,8 @@
 #include "world_rasterizer.h"
 
 Player::Player(World& world)
-    : RectangularObject(world, TileType::PLAYER),
-      WorldObject(world, TileType::PLAYER),
+    : WorldObject(world, TileType::PLAYER),
+      RectangularObject(world, TileType::PLAYER),
       defaultPos_(100, world_.groundLevel()) {
 
     sf::Vector2f size(15, 30);

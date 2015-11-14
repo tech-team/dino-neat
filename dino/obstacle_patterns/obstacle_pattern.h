@@ -6,15 +6,20 @@
 
 #include "obstacle.h"
 
-class ObstaclePattern : public WorldObject {
+class ObstaclePattern : public Obstacle {
 public:
-    ObstaclePattern(World &world);
+    ObstaclePattern(World& world);
 
-    virtual const sf::Drawable &getDrawable() const override;
     virtual void update(float dt) override;
+    virtual void draw(sf::RenderWindow& window) override;
+
     virtual void moveTo(sf::Vector2f pos) override;
     virtual void move(sf::Vector2f delta) override;
     virtual void rasterize(PlainWorld &raster, WorldRasterizer &rasterizer) const override;
+
+    virtual bool isVisible() override;
+
+    virtual bool collidesWith(const RectangularObject &object) const override;
 
 protected:
     int score_ = 0;

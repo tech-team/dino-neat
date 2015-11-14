@@ -4,14 +4,14 @@
 
 #include "player.h"
 #include "rectangular_obstacle.h"
-
+#include "obstacle_patterns/obstacle_pattern_factory.h"
 
 World::World(sf::Vector2f size)
     : size_(size),
       obstacleCreationTimer_(
           [this] (Timer&) {
               createObstacle();
-              obstacleCreationTimer_.startOnce(randomTime(0, 2));
+              obstacleCreationTimer_.startOnce(randomTime(0.5, 2));
           }) {
 
     player_ = std::make_shared<Player>(*this);
@@ -21,9 +21,9 @@ World::World(sf::Vector2f size)
 
 void World::draw(sf::RenderWindow& window) const {
     for (const auto& obstacle: obstables_)
-        window.draw(obstacle->getDrawable());
+        obstacle->draw(window);
 
-    window.draw(player_->getDrawable());
+    player_->draw(window);
 }
 
 bool World::update(float dt) {
@@ -64,7 +64,7 @@ bool World::update(float dt) {
 }
 
 void World::createObstacle() {
-    auto obstable = std::make_shared<RectangularObstacle>(*this);
+    auto obstable = ObstaclePatternFactory::createRandom(*this);
     obstable->moveTo(sf::Vector2f(size_.x, groundLevel_));
 
     obstables_.emplace_back(obstable);

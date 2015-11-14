@@ -17,8 +17,8 @@ public:
 
     WorldObject(World& world, TileType tile_type = TileType::EMPTY);
 
-    virtual const sf::Drawable& getDrawable() const = 0;
     virtual void update(float dt) = 0;
+    virtual void draw(sf::RenderWindow& window) = 0;
 
     virtual void moveTo(sf::Vector2f pos) = 0;
     virtual void move(sf::Vector2f delta) = 0;

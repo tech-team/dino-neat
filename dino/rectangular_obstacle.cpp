@@ -4,9 +4,9 @@
 #include "world_rasterizer.h"
 
 RectangularObstacle::RectangularObstacle(World& world)
-    : RectangularObject(world, TileType::OBSTACLE),
+    : WorldObject(world, TileType::OBSTACLE),
       Obstacle(world),
-      WorldObject(world, TileType::OBSTACLE) {
+      RectangularObject(world, TileType::OBSTACLE) {
     sf::Vector2f size(30, 30);
     shape_.setSize(size - sf::Vector2f(3, 3));
     shape_.setOutlineThickness(3);

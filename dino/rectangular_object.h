@@ -15,6 +15,8 @@ public:
     const sf::Drawable& getDrawable() const;
     const sf::RectangleShape& shape() const;
 
+    virtual void draw(sf::RenderWindow& window) override;
+
     virtual void moveTo(sf::Vector2f pos) override;
     virtual void move(sf::Vector2f delta) override;
     virtual void rasterize(PlainWorld& raster, WorldRasterizer& rasterizer) const override;

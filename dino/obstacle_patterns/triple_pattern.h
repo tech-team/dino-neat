@@ -6,6 +6,9 @@
 class TriplePattern : public ObstaclePattern {
 public:
     TriplePattern(World& world);
+
+
+    virtual sf::Vector2f getPosition() const override;
 };
 
 #endif // TRIPLE_PATTERN_H

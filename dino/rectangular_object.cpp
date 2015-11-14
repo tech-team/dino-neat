@@ -4,6 +4,8 @@
 
 #include "rectangular_obstacle.h"
 
+#include <iostream>
+
 RectangularObject::RectangularObject(World& world, WorldObject::TileType tile_type)
     : WorldObject(world, tile_type) {
 
@@ -17,6 +19,9 @@ const sf::RectangleShape& RectangularObject::shape() const {
     return shape_;
 }
 
+void RectangularObject::draw(sf::RenderWindow& window) {
+    window.draw(shape_);
+}
 
 void RectangularObject::moveTo(sf::Vector2f pos) {
     shape_.setPosition(pos.x, pos.y);

@@ -18,7 +18,9 @@ SOURCES += main.cpp \
     rectangular_object.cpp \
     overlay.cpp \
     obstacle_patterns/obstacle_pattern.cpp \
-    obstacle_patterns/triple_pattern.cpp
+    obstacle_patterns/triple_pattern.cpp \
+    obstacle_patterns/obstacle_pattern_factory.cpp \
+    obstacle_patterns/post_pattern.cpp
 
 HEADERS += \
     world_object.h \
@@ -34,7 +36,9 @@ HEADERS += \
     utils.h \	
     obstacle_patterns/obstacle_pattern.h \
     obstacle_patterns/triple_pattern.h \
-    exceptions/not_implemented_exception.h
+    exceptions/not_implemented_exception.h \
+    obstacle_patterns/obstacle_pattern_factory.h \
+    obstacle_patterns/post_pattern.h
 
 QMAKE_CXXFLAGS += -std=c++14
 

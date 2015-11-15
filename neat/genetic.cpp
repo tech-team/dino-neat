@@ -4,6 +4,8 @@
 #include <iostream>
 #include <random>
 
+#include "dino/game.h"
+
 Genetic::Genetic(const NeatConfig& conf)
     : conf_(conf) {
     for (int i = 0; i < conf.population_size; ++i) {
@@ -54,14 +56,34 @@ void Genetic::evalPopulation() {
 
 double Genetic::evalFitness(Chromosome& ch) {
     // start game
-    while (false) {
-        std::vector<double> input(conf_.net_conf.input_size); // get input from game
-        auto output = ch.net()->activate(input);
-        // apply output
-    }
+    Game game_(1);
 
-    //return score
-    return 0;
+    game_.subscribeOnUpdate([this, &ch, &game_] () {
+        // state
+        if (game_.is_game_over()) {
+            game_.stop();
+            return;
+        }
+
+        // I/O
+        std::vector<double> input = game_.rasterizeWorld();
+        auto output = ch.net()->activate(input);
+        bool press_space = output[0] > 0;
+
+        if (press_space) {
+            sf::Event event;
+            event.type = sf::Event::KeyPressed;
+            event.key.code = sf::Keyboard::Space;
+
+            game_.onKeyPressed(event);
+        }
+    });
+
+    // blocking call
+    game_.startEventLoop();
+
+    // return score
+    return game_.score();
 }
 
 void Genetic::sortPopulation() {

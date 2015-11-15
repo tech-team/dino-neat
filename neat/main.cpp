@@ -6,7 +6,7 @@ int main() {
     for (int i = 0; i < 100; ++i) {
     srand(100);
     Net::Config net_conf;
-    net_conf.input_size = 3;
+    net_conf.input_size = 324;
     net_conf.output_size = 1;
 
     NeatConfig conf;

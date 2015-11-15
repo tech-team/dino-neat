@@ -5,7 +5,7 @@
 
 class World;
 
-using PlainWorld = std::vector<int>;
+using PlainWorld = std::vector<double>;
 
 class WorldRasterizer {
 public:
@@ -18,7 +18,7 @@ public:
 
 private:
 
-    int rasterWidth_ = 8;
+    int rasterWidth_ = 18;
     World& world_;
     int scaleFactor_;
 };

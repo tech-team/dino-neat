@@ -9,6 +9,7 @@
 #include "edge.h"
 #include "neat_config.h"
 
+
 class Genetic : public InnovationNumberGetter
 {
 public:

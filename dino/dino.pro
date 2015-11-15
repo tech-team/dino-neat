@@ -1,6 +1,6 @@
 QT -= gui
 
-I_WANT_LIB = false
+I_WANT_LIB = true
 
 TARGET = dino
 
@@ -88,7 +88,7 @@ win32 {
 equals(I_WANT_LIB, true) {
     message(Building dino library)
     TEMPLATE = lib
-    CONFIG = staticlib
+    CONFIG += staticlib
 } else {
     message(Building dino app)
     TEMPLATE = app

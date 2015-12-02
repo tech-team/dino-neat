@@ -5,12 +5,13 @@
 
 #include "world_rasterizer.h"
 
-Game::Game(int fps)
+Game::Game(int time_scale)
     : window_(sf::VideoMode(game_width_, game_height_, 32),
               "Dino NEAT",
               sf::Style::Titlebar | sf::Style::Close) {
     window_.setFramerateLimit(30);
 
+    set_time_scale(time_scale);
     restart();
 }
 
@@ -36,7 +37,7 @@ void Game::startEventLoop() {
             }
         }
 
-        float dt = clock.restart().asSeconds() * TIME_SCALE;
+        float dt = clock.restart().asSeconds() * time_scale_;
 
         update(dt);
 
@@ -93,6 +94,14 @@ void Game::onKeyPressed(sf::Event& event) {
         logRaster();
         break;
 
+    case sf::Keyboard::Up:
+        set_time_scale(time_scale() * 2);
+        break;
+
+    case sf::Keyboard::Down:
+        set_time_scale(time_scale() / 2);
+        break;
+
     default:
 
         break;
@@ -100,7 +109,7 @@ void Game::onKeyPressed(sf::Event& event) {
 }
 
 void Game::restart() {
-    world_.reset(new World(sf::Vector2f(game_width_, game_height_)));
+    world_.reset(new World(this, sf::Vector2f(game_width_, game_height_)));
     game_over_ = false;
 }
 
@@ -131,4 +140,13 @@ int Game::score() const {
 
 int Game::is_game_over() const {
     return game_over_;
+}
+
+float Game::time_scale() const {
+    return time_scale_;
+}
+
+void Game::set_time_scale(float time_scale) {
+    time_scale_ = time_scale;
+    overlay_.set_time_scale(time_scale_);
 }

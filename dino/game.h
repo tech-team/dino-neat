@@ -11,10 +11,7 @@
 
 class Game {
 public:
-//    static constexpr float TIME_SCALE = 20;
-    static constexpr float TIME_SCALE = 50;
-
-    Game(int fps);
+    Game(int time_scale);
 
     void subscribeOnUpdate(std::function<void()> update_listener);
 
@@ -34,6 +31,9 @@ public:
     int score() const;
     int is_game_over() const;
 
+    float time_scale() const;
+    void set_time_scale(float time_scale);
+
 private:
     static constexpr int game_width_ = 800;
     static constexpr int game_height_ = 600;
@@ -42,6 +42,8 @@ private:
     std::shared_ptr<World> world_;
     Overlay overlay_;
     bool game_over_ = false;
+
+    float time_scale_;
 
     std::function<void()> update_listener_;
 };

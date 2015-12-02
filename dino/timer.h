@@ -9,15 +9,16 @@ public:
     using Callback = std::function<void(Timer&)>;
 
     Timer(Callback cb);
-    void start(sf::Time time);
-    void startOnce(sf::Time time);
+    void start(float seconds);
+    void startOnce(float seconds);
     void stop();
 
-    void update();
+    void update(float dt);
 
 private:
-    sf::Clock clock_;
-    sf::Time time_;
+    float elapsed_;
+
+    float time_;
     bool runOnce_ = false;
     Callback cb_;
 

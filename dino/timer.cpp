@@ -7,32 +7,34 @@ Timer::Timer(Callback cb)
 }
 
 
-void Timer::start(sf::Time time) {
-    time_ = time;
+void Timer::start(float seconds) {
+    time_ = seconds;
 
     isStarted_ = true;
     runOnce_ = false;
-    clock_.restart();
+    elapsed_ = 0;
 }
 
-void Timer::startOnce(sf::Time time) {
-    time_ = time;
+void Timer::startOnce(float seconds) {
+    time_ = seconds;
 
     isStarted_ = true;
     runOnce_ = true;
-    clock_.restart();
+    elapsed_ = 0;
 }
 
 void Timer::stop() {
     isStarted_ = false;
 }
 
-void Timer::update() {
+void Timer::update(float dt) {
     if (!isStarted_)
         return;
 
-    if (clock_.getElapsedTime() > time_) {
-        clock_.restart();
+    elapsed_ += dt;
+
+    if (elapsed_ > time_) {
+        elapsed_ = 0;
         isStarted_ = !runOnce_;
 
         cb_(*this);

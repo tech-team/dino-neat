@@ -2,8 +2,9 @@
 #include "game.h"
 
 int main() {
-    int fps = 1;
-    Game game(fps);
+    int time_scale = 20;
+
+    Game game(time_scale);
     game.startEventLoop();
 }
 

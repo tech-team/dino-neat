@@ -2,21 +2,28 @@
 
 #include <random>
 
+#include "game.h"
 #include "player.h"
 #include "rectangular_obstacle.h"
 #include "obstacle_patterns/obstacle_pattern_factory.h"
 
-World::World(sf::Vector2f size)
-    : size_(size),
-      obstacleCreationTimer_(
+World::World(Game* game, sf::Vector2f size)
+    : game_(game),
+      size_(size),
+      obstacle_creation_timer_(
           [this] (Timer&) {
               createObstacle();
-              obstacleCreationTimer_.startOnce(randomTime(0.5, 2));
+              obstacle_creation_timer_.startOnce(randomTime(30, 60));
+          }),
+      score_timer_(
+          [this] (Timer&) {
+              ++score_;
           }) {
 
     player_ = std::make_shared<Player>(*this);
 
-    obstacleCreationTimer_.startOnce(sf::seconds(0));
+    obstacle_creation_timer_.startOnce(0);
+    score_timer_.start(1);
 }
 
 void World::draw(sf::RenderWindow& window) const {
@@ -53,12 +60,13 @@ bool World::update(float dt) {
         // jump over detection
         if (!obstacle->is_passed()
                 && player_->getPosition().x > obstacle->getPosition().x) {
-            ++score_;
+            score_ += 100;
             obstacle->set_passed(true);
         }
     }
 
-    obstacleCreationTimer_.update();
+    obstacle_creation_timer_.update(dt);
+    score_timer_.update(dt);
 
     return false;
 }
@@ -90,10 +98,14 @@ bool World::isPointOnScreen(int i, int j) const {
     return i >= 0 && j >= 0 && i < size_.x && j < size_.y;
 }
 
-sf::Time World::randomTime(double min, double max) const {
+float World::randomTime(double min, double max) const {
     // seeded random
     static std::mt19937 rand_engine(1234);
 
     std::uniform_real_distribution<double> unif(min, max);
-    return sf::seconds(unif(rand_engine));
+    return unif(rand_engine);
+}
+
+const Game* World::game() const {
+    return game_;
 }

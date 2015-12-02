@@ -22,7 +22,7 @@ Player::Player(World& world)
 
 void Player::update(float dt) {
     if (state_ == State::JUMP) {
-        double t = jumpClock_.getElapsedTime().asSeconds() * Game::TIME_SCALE;
+        double t = jumpClock_.getElapsedTime().asSeconds() * world_.game()->time_scale();
         double g = 9.8;
         double v_0 = 60;
 

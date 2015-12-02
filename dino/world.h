@@ -10,10 +10,11 @@
 class Obstacle;
 class Player;
 class WorldRasterizer;
+class Game;
 
 class World {
 public:
-    World(sf::Vector2f size);
+    World(Game* game, sf::Vector2f size);
 
     void draw(sf::RenderWindow& window) const;
 
@@ -37,16 +38,21 @@ public:
 
     bool isPointOnScreen(int i, int j) const;
 
-    sf::Time randomTime(double min, double max) const;
+    float randomTime(double min, double max) const;
+
+    const Game* game() const;
 
 private:
+    const Game* game_;
+
     sf::Vector2f size_;
     double scrollSpeed_ = 20;
     double groundLevel_ = 500;
 
     int score_ = 0;
 
-    Timer obstacleCreationTimer_;
+    Timer obstacle_creation_timer_;
+    Timer score_timer_;
 
     std::shared_ptr<Player> player_;
     std::deque<std::shared_ptr<Obstacle>> obstables_;

@@ -3,9 +3,12 @@
 
 #include "net.h"
 
+#include <cstdint>
+
 struct NeatConfig {
     Net::Config net_conf;
-    int population_size = 10;
+    uint32_t population_size = 10;
+    uint32_t selection_count = 5;
     int iterations_count = 5;
     double edge_enable_prob = 1.0;
 };

@@ -11,7 +11,8 @@
 
 class Game {
 public:
-    static constexpr float TIME_SCALE = 20;
+//    static constexpr float TIME_SCALE = 20;
+    static constexpr float TIME_SCALE = 50;
 
     Game(int fps);
 

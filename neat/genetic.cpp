@@ -5,10 +5,11 @@
 #include <random>
 
 #include "dino/game.h"
+#include "util.h"
 
 Genetic::Genetic(const NeatConfig& conf)
     : conf_(conf) {
-    for (int i = 0; i < conf.population_size; ++i) {
+    for (size_t i = 0; i < conf.population_size; ++i) {
         population_.emplace_back(std::move(Chromosome(conf_, new Net(conf.net_conf))));
     }
 }
@@ -42,10 +43,20 @@ void Genetic::iteration() {
 
     for (auto& ch : population_) {
         ch.mutateWeights();
-        ch.mutateStructure(this);
+        ch.mutateStructure(dynamic_cast<InnovationNumberGetter*>(this));
     }
-    // mutate
-    // crossover
+
+
+    int p1 = RandomGenerator::instance().randInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
+    int p2 = RandomGenerator::instance().randInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
+
+    Chromosome child = Chromosome::crossover(population_.at(p1), population_.at(p2));
+
+    population_.emplace_back(std::move(child));
+    sortPopulation();
+
+    size_t maximum_population = std::min((size_t) conf_.population_size, population_.size());
+    population_.erase(population_.begin() + maximum_population, population_.end());
 }
 
 void Genetic::evalPopulation() {
@@ -56,17 +67,17 @@ void Genetic::evalPopulation() {
 
 double Genetic::evalFitness(Chromosome& ch) {
     // start game
-    Game game_(1);
+    Game game(1);
 
-    game_.subscribeOnUpdate([this, &ch, &game_] () {
+    game.subscribeOnUpdate([this, &ch, &game] () {
         // state
-        if (game_.is_game_over()) {
-            game_.stop();
+        if (game.is_game_over()) {
+            game.stop();
             return;
         }
 
         // I/O
-        std::vector<double> input = game_.rasterizeWorld();
+        std::vector<double> input = game.rasterizeWorld();
         auto output = ch.net()->activate(input);
         bool press_space = output[0] > 0;
 
@@ -75,15 +86,15 @@ double Genetic::evalFitness(Chromosome& ch) {
             event.type = sf::Event::KeyPressed;
             event.key.code = sf::Keyboard::Space;
 
-            game_.onKeyPressed(event);
+            game.onKeyPressed(event);
         }
     });
 
     // blocking call
-    game_.startEventLoop();
+    game.startEventLoop();
 
     // return score
-    return game_.score();
+    return game.score();
 }
 
 void Genetic::sortPopulation() {

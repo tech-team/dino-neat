@@ -116,8 +116,8 @@ Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
         }
 
         Neuron* to = net->getNeuronById(parent->to()->id());
-        if (!net->getNeuronById(parent->to()->id())) {
-            net->createHiddenNeuron(parent->to()->id());
+        if (!to) {
+            to = net->createHiddenNeuron(parent->to()->id());
         }
 
         Edge* edge = net->createEdge(from, to, parent->w());

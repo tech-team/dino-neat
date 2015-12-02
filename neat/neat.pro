@@ -29,7 +29,15 @@ QMAKE_CXXFLAGS += -Wall -std=c++14
 unix {
     DEFINES += PLATFORM_UNIX
     INCLUDEPATH += ../
+
+    LIBS += -L"/home/igor/Projects/cpp/dino-neat/build-dino-Desktop_Qt_5_4_2_GCC_64bit-Debug/"
     LIBS += -ldino
+
+    LIBS += -lsfml-audio
+    LIBS += -lsfml-network
+    LIBS += -lsfml-graphics
+    LIBS += -lsfml-window
+    LIBS += -lsfml-system
 }
 
 win32 {

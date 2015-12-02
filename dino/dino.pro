@@ -1,6 +1,6 @@
 QT -= gui
 
-I_WANT_LIB = true
+I_WANT_LIB = false
 
 TARGET = dino
 
@@ -21,7 +21,9 @@ SOURCES += world_object.cpp \
     obstacle_patterns/obstacle_pattern.cpp \
     obstacle_patterns/triple_pattern.cpp \
     obstacle_patterns/obstacle_pattern_factory.cpp \
-    obstacle_patterns/post_pattern.cpp
+    obstacle_patterns/post_pattern.cpp \
+    obstacle_patterns/offsetted_triple_pattern.cpp \
+    obstacle_patterns/vertical_triple_pattern.cpp
 
 HEADERS += \
     world_object.h \
@@ -40,6 +42,8 @@ HEADERS += \
     exceptions/not_implemented_exception.h \
     obstacle_patterns/obstacle_pattern_factory.h \
     obstacle_patterns/post_pattern.h \
+    obstacle_patterns/offsetted_triple_pattern.h \
+    obstacle_patterns/vertical_triple_pattern.h \
     platform.h
 
 QMAKE_CXXFLAGS += -std=c++14

@@ -5,17 +5,20 @@
 
 #include "neuron.h"
 #include "edge.h"
+#include "util.h"
 
-Net::Net(const Config& conf)
+Net::Net(const Config& conf, bool init)
     : conf_(conf) {
-    for (int i = 0; i < conf.input_size; ++i) {
-        inputs_.push_back(createNeuron(Neuron::Type::INPUT));
-    }
+    if (init) {
+        for (int i = 0; i < conf.input_size; ++i) {
+            inputs_.push_back(createNeuron(Neuron::Type::INPUT));
+        }
 
-    for (int i = 0; i < conf.output_size; ++i) {
-        auto n = createNeuron(Neuron::Type::OUTPUT);
-        outputs_.push_back(n);
-        neurons_.push_back(n);
+        for (int i = 0; i < conf.output_size; ++i) {
+            auto n = createNeuron(Neuron::Type::OUTPUT);
+            outputs_.push_back(n);
+            neurons_.push_back(n);
+        }
     }
 }
 
@@ -142,7 +145,7 @@ Edge* Net::createRandEdge() {
         to = neurons_[rand_index];
     } while (checkEdgeExists(from, to));
 
-    auto edge = createEdge(from, to);
+    auto edge = createEdge(from, to, RandomGenerator::instance().rand(-1.0, 1.0));
     return edge;
 }
 
@@ -152,6 +155,10 @@ Edge* Net::randEdge() {
     }
     size_t rand_edge_index = rand() % edges_.size();
     return edges_[rand_edge_index];
+}
+
+std::vector<Edge*>& Net::edges() {
+    return edges_;
 }
 
 void Net::assignInputNeurons(const std::vector<Neuron*>& input_neurons) {
@@ -166,6 +173,7 @@ void Net::assignOutputNeurons(const std::vector<Neuron*>& output_neurons) {
         neurons_.push_back(outputs_.back());
     }
 }
+
 
 Neuron* Net::createNeuron(Neuron::Type neuronType) {
     return createNeuron(nextNeuronId(), neuronType);

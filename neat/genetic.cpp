@@ -67,7 +67,7 @@ void Genetic::evalPopulation() {
 
 double Genetic::evalFitness(Chromosome& ch) {
     // start game
-    Game game(1);
+    Game game(120);
 
     game.subscribeOnUpdate([this, &ch, &game] () {
         // state
@@ -79,6 +79,7 @@ double Genetic::evalFitness(Chromosome& ch) {
         // I/O
         std::vector<double> input = game.rasterizeWorld();
         auto output = ch.net()->activate(input);
+        std::cout << "Output: " << output[0] << std::endl;
         bool press_space = output[0] > 0;
 
         if (press_space) {
@@ -94,6 +95,7 @@ double Genetic::evalFitness(Chromosome& ch) {
     game.startEventLoop();
 
     // return score
+    std::cout << "Score: " << game.score() << std::endl;
     return game.score();
 }
 

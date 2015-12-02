@@ -25,8 +25,8 @@ void Neuron::add_input(Edge* edge) {
 }
 
 double Neuron::sigmoid(double x) {
-    return x > 0 ? 1 : -1;
-    //return 2.0 / (1 + std::exp(-x * 20)) - 1;
+//    return x > 0 ? 1 : -1;
+    return 2.0 / (1 + std::exp(-x * 20)) - 1;
 }
 
 double Neuron::activate() {
@@ -37,5 +37,6 @@ double Neuron::activate() {
         }
     }
     activation = sigmoid(activation);
-    return activation;
+    value_ = activation;
+    return value_;
 }

@@ -51,7 +51,9 @@ void Chromosome::set_fitness(double fitness) {
 }
 
 void Chromosome::mutateWeights() {
-    // TODO
+    for (auto& e : net_->edges()) {
+        e->set_w(RandomGenerator::instance().rand(-1.0, 1.0));
+    }
 }
 
 void Chromosome::mutateStructure(InnovationNumberGetter* innov_getter) {
@@ -88,7 +90,7 @@ void Chromosome::mutateAddNode(InnovationNumberGetter* innov_getter) {
 
 Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
     auto& conf = ch1.conf_;
-    Net* net = new Net(conf.net_conf);
+    Net* net = new Net(conf.net_conf, false);
 
     net->assignInputNeurons(ch1.net()->inputs());
     net->assignOutputNeurons(ch1.net()->outputs());

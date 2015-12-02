@@ -17,7 +17,7 @@ public:
         int output_size;
     };
 
-    Net(const Net::Config& conf);
+    Net(const Net::Config& conf, bool init=true);
     ~Net();
 
     const Net::Config& conf() const;
@@ -31,6 +31,8 @@ public:
     Edge* indexEdge(Edge* edge);
     Edge* createRandEdge();
     Edge* randEdge();
+
+    std::vector<Edge*>& edges();
 
     Neuron* getNeuronById(int id) const;
 

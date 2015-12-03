@@ -22,6 +22,7 @@ public:
     void draw();
 
     void onKeyPressed(sf::Event& event);
+    void onKeyReleased(sf::Event& event);
 
     void restart();
 

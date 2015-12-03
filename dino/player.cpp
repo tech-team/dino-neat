@@ -5,6 +5,9 @@
 #include "world.h"
 #include "world_rasterizer.h"
 
+constexpr float Player::MAX_JUMP_SPEED;
+constexpr float Player::MIN_JUMP_SPEED;
+
 Player::Player(World& world)
     : WorldObject(world, TileType::PLAYER),
       RectangularObject(world, TileType::PLAYER),
@@ -24,7 +27,7 @@ void Player::update(float dt) {
     if (state_ == State::JUMP) {
         double t = jumpClock_.getElapsedTime().asSeconds() * world_.game()->time_scale();
         double g = 9.8;
-        double v_0 = 60;
+        double v_0 = initial_jump_speed_;
 
         double y = world_.groundLevel() - v_0 * t + g * t * t / 2.0;
         shape_.setPosition(defaultPos_.x, y);
@@ -36,13 +39,28 @@ void Player::update(float dt) {
     }
 }
 
-void Player::jump() {
+void Player::jumpStart() {
     // disallow double jumps
     if (state_ == State::JUMP)
         return;
 
-    state_ = State::JUMP;
-    jumpClock_.restart();
+    if (state_ != State::JUMP_PREPARE) {
+        state_ = State::JUMP_PREPARE;
+        jumpClock_.restart();
+    }
+}
+
+void Player::jumpEnd() {
+    if (state_ == State::JUMP_PREPARE) {
+        initial_jump_speed_ = std::min(
+                    MAX_JUMP_SPEED,
+                    jumpClock_.restart().asSeconds() * 100);
+
+        if (initial_jump_speed_ < MIN_JUMP_SPEED)
+            initial_jump_speed_ = MIN_JUMP_SPEED;
+
+        state_ = State::JUMP;
+    }
 }
 
 

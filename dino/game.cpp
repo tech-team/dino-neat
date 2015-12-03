@@ -31,6 +31,10 @@ void Game::startEventLoop() {
             case sf::Event::KeyPressed:
                 onKeyPressed(event);
                 break;
+            case sf::Event::KeyReleased:
+                onKeyReleased(event);
+                break;
+
             default:
 
                 break;
@@ -83,7 +87,7 @@ void Game::onKeyPressed(sf::Event& event) {
         break;
 
     case sf::Keyboard::Space:
-        world_->playerJump();
+        world_->playerJumpStart();
         break;
 
     case sf::Keyboard::R:
@@ -100,6 +104,18 @@ void Game::onKeyPressed(sf::Event& event) {
 
     case sf::Keyboard::Down:
         set_time_scale(time_scale() / 2);
+        break;
+
+    default:
+
+        break;
+    }
+}
+
+void Game::onKeyReleased(sf::Event& event) {
+    switch (event.key.code) {
+    case sf::Keyboard::Space:
+        world_->playerJumpEnd();
         break;
 
     default:

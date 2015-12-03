@@ -27,7 +27,8 @@ public:
 
     void createObstacle();
 
-    void playerJump();
+    void playerJumpStart();
+    void playerJumpEnd();
 
     double groundLevel() const;
     const sf::Vector2f& size() const;

@@ -78,8 +78,12 @@ void World::createObstacle() {
     obstables_.emplace_back(obstable);
 }
 
-void World::playerJump() {
-    player_->jump();
+void World::playerJumpStart() {
+    player_->jumpStart();
+}
+
+void World::playerJumpEnd() {
+    player_->jumpEnd();
 }
 
 double World::groundLevel() const {

@@ -4,21 +4,21 @@
 
 int main() {
     srand(100);
-    for (int i = 0; i < 100; ++i) {
-        Net::Config net_conf;
-        net_conf.input_size = 324;
-        net_conf.output_size = 1;
+    Net::Config net_conf;
+    net_conf.input_size = 324;
+    net_conf.output_size = 1;
 
-        NeatConfig conf;
-        conf.net_conf = net_conf;
-        conf.iterations_count = 10;
-        conf.population_size = 5;
+    NeatConfig conf;
+    conf.net_conf = net_conf;
+    conf.iterations_count = 100;
+    conf.population_size = 10;
+    conf.mutate_structure_prob = 1;
+    conf.mutate_weights_prob = 1;
 
 
 
-        Genetic g(conf);
-        g.start();
-        std::cout << "fin" << std::endl;
-    }
+    Genetic g(conf);
+    g.start();
+    std::cout << "fin" << std::endl;
 }
 

@@ -116,6 +116,9 @@ const Edge* Net::getEdgeByInnovation(int innovation) const {
 }
 
 int Net::getMaxInnovation() const {
+    if (edges_.empty()) {
+        return -1;
+    }
     return edges_.back()->innovation();
 }
 
@@ -133,7 +136,7 @@ Edge* Net::createRandEdge() {
 
     do {
         size_t total_size = n + m;
-        size_t rand_index = rand() % total_size;
+        size_t rand_index = RandomGenerator::instance().randInt(0, total_size - 1);
 
         if (rand_index < n) {
             from = neurons_[rand_index];
@@ -141,7 +144,7 @@ Edge* Net::createRandEdge() {
             from = inputs_[rand_index - n];
         }
 
-        rand_index = rand() % n;
+        rand_index = RandomGenerator::instance().randInt(0, n - 1);
         to = neurons_[rand_index];
     } while (checkEdgeExists(from, to));
 
@@ -153,7 +156,7 @@ Edge* Net::randEdge() {
     if (edges_.empty()) {
         return nullptr;
     }
-    size_t rand_edge_index = rand() % edges_.size();
+    size_t rand_edge_index = RandomGenerator::instance().randInt(0, edges_.size() - 1);
     return edges_[rand_edge_index];
 }
 
@@ -189,6 +192,9 @@ Neuron* Net::createNeuron(int id, Neuron::Type neuronType) {
 }
 
 bool Net::checkEdgeExists(Neuron* from, Neuron* to) const {
+    if (from == nullptr || to == nullptr) {
+        return false;
+    }
     for (const Edge* e : edges_) {
         if (e->from() == from && e->to() == to) {
             return true;

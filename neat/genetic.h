@@ -35,7 +35,7 @@ private:
     int innov_number_ = 0;
     int elapsed_iterations_ = 0;
 
-    std::unordered_map<EdgeInfo, Edge*> population_edges_;
+    std::unordered_map<EdgeInfo, int> population_innovations_;
 };
 
 #endif // GENETIC_H

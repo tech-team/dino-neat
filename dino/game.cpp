@@ -116,6 +116,7 @@ void Game::onKeyReleased(sf::Event& event) {
     switch (event.key.code) {
     case sf::Keyboard::Space:
         world_->playerJumpEnd();
+        overlay_.set_debug_info("Test\nMultiple strings");
         break;
 
     default:
@@ -165,4 +166,8 @@ float Game::time_scale() const {
 void Game::set_time_scale(float time_scale) {
     time_scale_ = time_scale;
     overlay_.set_time_scale(time_scale_);
+}
+
+void Game::set_debug_info(const std::string& debug_info) {
+    overlay_.set_debug_info(debug_info);
 }

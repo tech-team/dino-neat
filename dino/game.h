@@ -34,6 +34,7 @@ public:
 
     float time_scale() const;
     void set_time_scale(float time_scale);
+    void set_debug_info(const std::string& debug_info);
 
 private:
     static constexpr int game_width_ = 800;

@@ -1,6 +1,6 @@
 QT -= gui
 
-I_WANT_LIB = false
+I_WANT_LIB = true
 
 TARGET = dino
 

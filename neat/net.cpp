@@ -145,7 +145,8 @@ Edge* Net::createRandEdge() {
         to = neurons_[rand_index];
     } while (checkEdgeExists(from, to));
 
-    auto edge = createEdge(from, to, RandomGenerator::instance().rand(-1.0, 1.0));
+    RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
+    auto edge = createEdge(from, to, random.rand(-1.0, 1.0));
     return edge;
 }
 

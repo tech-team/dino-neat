@@ -46,7 +46,9 @@ win32 {
     INCLUDEPATH += ../
     INCLUDEPATH += ../dino/third_party/SFML/include
 
-    LIBS += C:/Projects/Qt/dino-neat/build-dino-Desktop_Qt_5_5_1_MinGW_32bit-Debug/debug/libdino.a
+    LIBS += -L"C:/Projects/Qt/dino-neat/build-dino-Desktop_Qt_5_5_1_MinGW_32bit-Debug/debug/"
+    LIBS += -L"C:/Projects/dino-neat/build-dino-Desktop_Qt_5_5_1_MinGW_32bit-Debug/debug/"
+    LIBS += -ldino
 
     LIBS += -L"C:/Projects/Qt/dino-neat/dino/third_party/SFML/lib/"
     LIBS += -L"C:/Projects/dino-neat/dino/third_party/SFML/lib/"

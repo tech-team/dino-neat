@@ -47,8 +47,9 @@ void Genetic::iteration() {
     }
 
 
-    int p1 = RandomGenerator::instance().randInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
-    int p2 = RandomGenerator::instance().randInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
+    RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
+    int p1 = random.randInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
+    int p2 = random.randInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
 
     Chromosome child = Chromosome::crossover(population_.at(p1), population_.at(p2));
 

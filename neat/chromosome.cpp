@@ -52,7 +52,8 @@ void Chromosome::set_fitness(double fitness) {
 
 void Chromosome::mutateWeights() {
     for (auto& e : net_->edges()) {
-        e->set_w(RandomGenerator::instance().rand(-1.0, 1.0));
+        RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
+        e->set_w(random.rand(-1.0, 1.0));
     }
 }
 
@@ -126,7 +127,8 @@ Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
         edge->set_innovation(i);
         net->indexEdge(edge);
         if (!parent->is_enabled()) {
-            if (RandomGenerator::instance().rand() < conf.edge_enable_prob) {
+            RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
+            if (random.rand() < conf.edge_enable_prob) {
                 edge->set_enabled(true);
             } else {
                 edge->set_enabled(false);

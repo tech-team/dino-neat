@@ -61,12 +61,13 @@ void Genetic::iteration() {
             Chromosome child = Chromosome::crossover(population_.at(p1), population_.at(p2));
             population_.emplace_back(std::move(child));
         }
-    }
-    
-    sortPopulation();
 
-    size_t maximum_population = std::min((size_t) conf_.population_size, population_.size());
-    population_.erase(population_.begin() + maximum_population, population_.end());
+
+        sortPopulation();
+
+        size_t maximum_population = std::min((size_t) conf_.population_size, population_.size());
+        population_.erase(population_.begin() + maximum_population, population_.end());    
+    }    
 }
 
 void Genetic::evalPopulation() {

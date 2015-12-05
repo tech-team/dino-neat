@@ -97,13 +97,17 @@ Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
     net->assignOutputNeurons(ch1.net()->outputs());
 
     int max_innovation = std::max(ch1.net()->getMaxInnovation(), ch2.net()->getMaxInnovation());
+    std::cout << "max_innovation = " << max_innovation << std::endl;
+    if (max_innovation > 100000) {
+        std::cout << "too big" << std::endl;
+    }
     for (int i = 1; i <= max_innovation; ++i) {
         const Edge* e1 = ch1.net()->getEdgeByInnovation(i);
         const Edge* e2 = ch2.net()->getEdgeByInnovation(i);
 
         const Edge* parent = nullptr;
         if (e1 && e2) {
-            parent = rand() % 2 ? e1 : e2;
+            parent = RandomGenerator::instance().randInt(0, 1) ? e1 : e2;
         } else if (e1) {
             parent = e1;
         } else if (e2) {
@@ -125,6 +129,7 @@ Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
 
         Edge* edge = net->createEdge(from, to, parent->w());
         edge->set_innovation(i);
+
         net->indexEdge(edge);
         if (!parent->is_enabled()) {
             RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);

@@ -20,20 +20,20 @@ int Genetic::elapsed_iterations() const {
 
 void Genetic::start() {
     while (elapsed_iterations_ < conf_.iterations_count) {
-        iteration();
         ++elapsed_iterations_;
         std::cout << "Iteration #" << elapsed_iterations_ << std::endl;
+        iteration();
     }
 }
 
 int Genetic::getInnovNumber(Edge* edge) {
-    auto existing_edge = population_edges_.find(edge->edge_info());
-    if (existing_edge == population_edges_.end()) {
+    auto existing_edge = population_innovations_.find(edge->edge_info());
+    if (existing_edge == population_innovations_.end()) {
         ++innov_number_;
-        population_edges_[edge->edge_info()] = edge;
+        population_innovations_[edge->edge_info()] = innov_number_;
         return innov_number_;
     } else {
-        return existing_edge->second->innovation();
+        return existing_edge->second;
     }
 }
 
@@ -42,18 +42,27 @@ void Genetic::iteration() {
     sortPopulation();
 
     for (auto& ch : population_) {
-        ch.mutateWeights();
-        ch.mutateStructure(dynamic_cast<InnovationNumberGetter*>(this));
+        if (RandomGenerator::instance().rand() < conf_.mutate_weights_prob) {
+            ch.mutateWeights();
+        }
+        if (RandomGenerator::instance().rand() < conf_.mutate_structure_prob) {
+            ch.mutateStructure(dynamic_cast<InnovationNumberGetter*>(this));
+        }
     }
 
 
     RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
-    int p1 = random.randInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
-    int p2 = random.randInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
+    if (elapsed_iterations_ != 1) {
+        for (uint32_t i = 0; i < conf_.crossovers_count; ++i) {
+            std::cout << "crossover #" << i << std::endl;
+            int p1 = random.randInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
+            int p2 = random.randInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
 
-    Chromosome child = Chromosome::crossover(population_.at(p1), population_.at(p2));
-
-    population_.emplace_back(std::move(child));
+            Chromosome child = Chromosome::crossover(population_.at(p1), population_.at(p2));
+            population_.emplace_back(std::move(child));
+        }
+    }
+    
     sortPopulation();
 
     size_t maximum_population = std::min((size_t) conf_.population_size, population_.size());
@@ -68,7 +77,7 @@ void Genetic::evalPopulation() {
 
 double Genetic::evalFitness(Chromosome& ch) {
     // start game
-    Game game(120);
+    Game game(40);
 
     game.subscribeOnUpdate([this, &ch, &game] () {
         // state
@@ -80,15 +89,17 @@ double Genetic::evalFitness(Chromosome& ch) {
         // I/O
         std::vector<double> input = game.rasterizeWorld();
         auto output = ch.net()->activate(input);
-        std::cout << "Output: " << output[0] << std::endl;
+//        std::cout << "Output: " << output[0] << std::endl;
         bool press_space = output[0] > 0;
 
+        sf::Event event;
+        event.key.code = sf::Keyboard::Space;
         if (press_space) {
-            sf::Event event;
             event.type = sf::Event::KeyPressed;
-            event.key.code = sf::Keyboard::Space;
-
             game.onKeyPressed(event);
+        } else {
+            event.type = sf::Event::KeyReleased;
+            game.onKeyReleased(event);
         }
     });
 
@@ -96,7 +107,7 @@ double Genetic::evalFitness(Chromosome& ch) {
     game.startEventLoop();
 
     // return score
-    std::cout << "Score: " << game.score() << std::endl;
+//    std::cout << "Score: " << game.score() << std::endl;
     return game.score();
 }
 

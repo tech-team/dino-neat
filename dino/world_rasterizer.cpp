@@ -20,7 +20,7 @@ PlainWorld WorldRasterizer::rasterize() {
         obstacle->rasterize(raster, *this);
     }
 
-    world_.player_->rasterize(raster, *this);
+    //world_.player_->rasterize(raster, *this);
 
     return raster;
 }

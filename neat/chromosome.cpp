@@ -93,6 +93,8 @@ Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
     auto& conf = ch1.conf_;
     Net* net = new Net(conf.net_conf, false);
 
+    RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
+
     net->assignInputNeurons(ch1.net()->inputs());
     net->assignOutputNeurons(ch1.net()->outputs());
 
@@ -107,7 +109,7 @@ Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
 
         const Edge* parent = nullptr;
         if (e1 && e2) {
-            parent = RandomGenerator::instance().randInt(0, 1) ? e1 : e2;
+            parent = random.randInt(0, 1) ? e1 : e2;
         } else if (e1) {
             parent = e1;
         } else if (e2) {

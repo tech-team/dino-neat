@@ -134,9 +134,10 @@ Edge* Net::createRandEdge() {
     Neuron* from = nullptr;
     Neuron* to = nullptr;
 
+    RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
     do {
         size_t total_size = n + m;
-        size_t rand_index = RandomGenerator::instance().randInt(0, total_size - 1);
+        size_t rand_index = random.randInt(0, total_size - 1);
 
         if (rand_index < n) {
             from = neurons_[rand_index];
@@ -144,11 +145,10 @@ Edge* Net::createRandEdge() {
             from = inputs_[rand_index - n];
         }
 
-        rand_index = RandomGenerator::instance().randInt(0, n - 1);
+        rand_index = random.randInt(0, n - 1);
         to = neurons_[rand_index];
     } while (checkEdgeExists(from, to));
 
-    RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
     auto edge = createEdge(from, to, random.rand(-1.0, 1.0));
     return edge;
 }
@@ -157,7 +157,9 @@ Edge* Net::randEdge() {
     if (edges_.empty()) {
         return nullptr;
     }
-    size_t rand_edge_index = RandomGenerator::instance().randInt(0, edges_.size() - 1);
+
+    RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
+    size_t rand_edge_index = random.randInt(0, edges_.size() - 1);
     return edges_[rand_edge_index];
 }
 

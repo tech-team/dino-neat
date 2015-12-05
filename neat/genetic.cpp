@@ -41,17 +41,16 @@ void Genetic::iteration() {
     evalPopulation();
     sortPopulation();
 
+    RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
     for (auto& ch : population_) {
-        if (RandomGenerator::instance().rand() < conf_.mutate_weights_prob) {
+        if (random.rand() < conf_.mutate_weights_prob) {
             ch.mutateWeights();
         }
-        if (RandomGenerator::instance().rand() < conf_.mutate_structure_prob) {
+        if (random.rand() < conf_.mutate_structure_prob) {
             ch.mutateStructure(dynamic_cast<InnovationNumberGetter*>(this));
         }
     }
 
-
-    RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
     if (elapsed_iterations_ != 1) {
         for (uint32_t i = 0; i < conf_.crossovers_count; ++i) {
             std::cout << "crossover #" << i << std::endl;

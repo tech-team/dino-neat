@@ -12,7 +12,8 @@ SOURCES += main.cpp \
     genetic.cpp \
     net.cpp \
     chromosome.cpp \
-    util.cpp
+    util.cpp \
+    ../common/random.cpp
 
 HEADERS += \
     neuron.h \
@@ -22,7 +23,8 @@ HEADERS += \
     chromosome.h \
     innovation_number_getter.h \
     util.h \
-    neat_config.h
+    neat_config.h \
+    ../common/random.h
 
 QMAKE_CXXFLAGS += -Wall -std=c++14
 

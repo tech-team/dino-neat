@@ -8,7 +8,7 @@
 #include "innovation_number_getter.h"
 #include "edge.h"
 #include "neat_config.h"
-
+#include "common/random.h"
 
 class Genetic : public InnovationNumberGetter
 {
@@ -21,6 +21,8 @@ public:
     void start();
 
     int getInnovNumber(Edge* edge) override;
+
+    Random& random();
 
 private:
     void iteration();
@@ -36,6 +38,8 @@ private:
     int elapsed_iterations_ = 0;
 
     std::unordered_map<EdgeInfo, int> population_innovations_;
+
+    Random random_ = 1234;
 };
 
 #endif // GENETIC_H

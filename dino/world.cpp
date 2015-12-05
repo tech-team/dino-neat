@@ -13,7 +13,8 @@ World::World(Game* game, sf::Vector2f size)
       obstacle_creation_timer_(
           [this] (Timer&) {
               createObstacle();
-              obstacle_creation_timer_.startOnce(randomTime(30, 60));
+              obstacle_creation_timer_.startOnce(
+                          game_->random().nextDouble(30, 60));
           }),
       score_timer_(
           [this] (Timer&) {
@@ -102,14 +103,6 @@ bool World::isPointOnScreen(int i, int j) const {
     return i >= 0 && j >= 0 && i < size_.x && j < size_.y;
 }
 
-float World::randomTime(double min, double max) const {
-    // seeded random
-    static std::mt19937 rand_engine(1234);
-
-    std::uniform_real_distribution<double> unif(min, max);
-    return unif(rand_engine);
-}
-
-const Game* World::game() const {
+Game* World::game() const {
     return game_;
 }

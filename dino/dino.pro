@@ -23,7 +23,8 @@ SOURCES += world_object.cpp \
     obstacle_patterns/obstacle_pattern_factory.cpp \
     obstacle_patterns/post_pattern.cpp \
     obstacle_patterns/offsetted_triple_pattern.cpp \
-    obstacle_patterns/vertical_triple_pattern.cpp
+    obstacle_patterns/vertical_triple_pattern.cpp \
+    ../common/random.cpp
 
 HEADERS += \
     world_object.h \
@@ -44,7 +45,8 @@ HEADERS += \
     obstacle_patterns/post_pattern.h \
     obstacle_patterns/offsetted_triple_pattern.h \
     obstacle_patterns/vertical_triple_pattern.h \
-    platform.h
+    platform.h \
+    ../common/random.h
 
 QMAKE_CXXFLAGS += -std=c++14
 

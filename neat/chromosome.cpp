@@ -2,20 +2,24 @@
 
 #include <iostream>
 
+#include "common/random.h"
 #include "net.h"
 #include "neuron.h"
 #include "edge.h"
 #include "innovation_number_getter.h"
 #include "util.h"
 
-Chromosome::Chromosome(const NeatConfig& conf, Net* net)
+Chromosome::Chromosome(Random& random, const NeatConfig& conf, Net* net)
     : net_(net),
-      conf_(conf) {
+      conf_(conf),
+      random_(random) {
 
 }
 
 Chromosome::Chromosome(Chromosome&& ch)
-    : conf_(ch.conf_) {
+    : conf_(ch.conf_),
+      random_(ch.random_) {
+
     net_ = ch.net_;
     fitness_ = ch.fitness_;
 
@@ -52,8 +56,7 @@ void Chromosome::set_fitness(double fitness) {
 
 void Chromosome::mutateWeights() {
     for (auto& e : net_->edges()) {
-        RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
-        e->set_w(random.rand(-1.0, 1.0));
+        e->set_w(random_.nextDouble(-1.0, 1.0));
     }
 }
 
@@ -91,9 +94,9 @@ void Chromosome::mutateAddNode(InnovationNumberGetter* innov_getter) {
 
 Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
     auto& conf = ch1.conf_;
-    Net* net = new Net(conf.net_conf, false);
+    auto& random = ch1.random_;
 
-    RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
+    Net* net = new Net(random, conf.net_conf, false);
 
     net->assignInputNeurons(ch1.net()->inputs());
     net->assignOutputNeurons(ch1.net()->outputs());
@@ -109,7 +112,7 @@ Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
 
         const Edge* parent = nullptr;
         if (e1 && e2) {
-            parent = random.randInt(0, 1) ? e1 : e2;
+            parent = random.nextInt(0, 1) ? e1 : e2;
         } else if (e1) {
             parent = e1;
         } else if (e2) {
@@ -134,8 +137,7 @@ Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
 
         net->indexEdge(edge);
         if (!parent->is_enabled()) {
-            RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
-            if (random.rand() < conf.edge_enable_prob) {
+            if (random.nextDouble() < conf.edge_enable_prob) {
                 edge->set_enabled(true);
             } else {
                 edge->set_enabled(false);
@@ -143,9 +145,7 @@ Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
         }
     }
 
-
-
-    return Chromosome(ch1.conf_, net);
+    return Chromosome(random, conf, net);
 }
 
 

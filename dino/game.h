@@ -6,8 +6,9 @@
 #include <memory>
 #include <vector>
 
-#include "world.h"
+#include "../common/random.h"
 #include "overlay.h"
+#include "world.h"
 
 class Game {
 public:
@@ -36,6 +37,8 @@ public:
     void set_time_scale(float time_scale);
     void set_debug_info(const std::string& debug_info);
 
+    Random& random();
+
 private:
     static constexpr int game_width_ = 800;
     static constexpr int game_height_ = 600;
@@ -48,6 +51,8 @@ private:
     float time_scale_;
 
     std::function<void()> update_listener_;
+
+    Random random_ = 1234;
 };
 
 #endif // GAME_H

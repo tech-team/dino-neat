@@ -4,9 +4,6 @@
 #include "util.h"
 
 int main() {
-    srand(100);
-    RandomGenerator::instance(RandomGeneratorId::GENETIC).srand(100);
-
     Net::Config net_conf;
     net_conf.input_size = 324;
     net_conf.output_size = 1;

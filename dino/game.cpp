@@ -171,3 +171,7 @@ void Game::set_time_scale(float time_scale) {
 void Game::set_debug_info(const std::string& debug_info) {
     overlay_.set_debug_info(debug_info);
 }
+
+Random& Game::random() {
+    return random_;
+}

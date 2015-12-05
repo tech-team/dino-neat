@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 
+#include "common/random.h"
 #include "neuron.h"
 
 class Edge;
@@ -17,7 +18,7 @@ public:
         int output_size;
     };
 
-    Net(const Net::Config& conf, bool init=true);
+    Net(Random& random, const Net::Config& conf, bool init=true);
     ~Net();
 
     const Net::Config& conf() const;
@@ -60,6 +61,8 @@ private:
     std::vector<Neuron*> outputs_;  // contained in |neurons|
 
     int max_neuron_id_ = 0;
+
+    Random& random_;
 };
 
 #endif // NET_H

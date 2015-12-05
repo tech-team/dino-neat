@@ -41,10 +41,10 @@ public:
 
     float randomTime(double min, double max) const;
 
-    const Game* game() const;
+    Game* game() const;
 
 private:
-    const Game* game_;
+    Game* game_;
 
     sf::Vector2f size_;
     double scrollSpeed_ = 20;

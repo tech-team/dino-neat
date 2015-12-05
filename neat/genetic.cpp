@@ -10,7 +10,7 @@
 Genetic::Genetic(const NeatConfig& conf)
     : conf_(conf) {
     for (size_t i = 0; i < conf.population_size; ++i) {
-        population_.emplace_back(std::move(Chromosome(conf_, new Net(conf.net_conf))));
+        population_.emplace_back(std::move(Chromosome(random_, conf_, new Net(random_, conf.net_conf))));
     }
 }
 
@@ -37,16 +37,19 @@ int Genetic::getInnovNumber(Edge* edge) {
     }
 }
 
+Random& Genetic::random() {
+    return random_;
+}
+
 void Genetic::iteration() {
     evalPopulation();
     sortPopulation();
 
-    RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
     for (auto& ch : population_) {
-        if (random.rand() < conf_.mutate_weights_prob) {
+        if (random_.nextDouble() < conf_.mutate_weights_prob) {
             ch.mutateWeights();
         }
-        if (random.rand() < conf_.mutate_structure_prob) {
+        if (random_.nextDouble() < conf_.mutate_structure_prob) {
             ch.mutateStructure(dynamic_cast<InnovationNumberGetter*>(this));
         }
     }
@@ -54,8 +57,8 @@ void Genetic::iteration() {
     if (elapsed_iterations_ != 1) {
         for (uint32_t i = 0; i < conf_.crossovers_count; ++i) {
             std::cout << "crossover #" << i << std::endl;
-            int p1 = random.randInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
-            int p2 = random.randInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
+            int p1 = random_.nextInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
+            int p2 = random_.nextInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
 
             Chromosome child = Chromosome::crossover(population_.at(p1), population_.at(p2));
             population_.emplace_back(std::move(child));

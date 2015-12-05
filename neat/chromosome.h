@@ -1,13 +1,14 @@
 #ifndef CHROMOSOME_H
 #define CHROMOSOME_H
 
+#include "common/random.h"
 #include "neat_config.h"
 
 class Net;
 class InnovationNumberGetter;
 class Chromosome {
 public:
-    Chromosome(const NeatConfig& conf, Net* net);
+    Chromosome(Random& random, const NeatConfig& conf, Net* net);
     Chromosome(const Chromosome& other) = delete;
     Chromosome(Chromosome&& ch);
 
@@ -33,6 +34,8 @@ private:
     double fitness_ = 0;
 
     const NeatConfig& conf_;
+
+    Random& random_;
 };
 
 #endif // CHROMOSOME_H

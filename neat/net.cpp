@@ -7,8 +7,8 @@
 #include "edge.h"
 #include "util.h"
 
-Net::Net(const Config& conf, bool init)
-    : conf_(conf) {
+Net::Net(Random& random, const Config& conf, bool init)
+    : conf_(conf), random_(random) {
     if (init) {
         for (int i = 0; i < conf.input_size; ++i) {
             inputs_.push_back(createNeuron(Neuron::Type::INPUT));
@@ -134,10 +134,9 @@ Edge* Net::createRandEdge() {
     Neuron* from = nullptr;
     Neuron* to = nullptr;
 
-    RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
     do {
         size_t total_size = n + m;
-        size_t rand_index = random.randInt(0, total_size - 1);
+        size_t rand_index = random_.nextInt(0, total_size - 1);
 
         if (rand_index < n) {
             from = neurons_[rand_index];
@@ -145,11 +144,11 @@ Edge* Net::createRandEdge() {
             from = inputs_[rand_index - n];
         }
 
-        rand_index = random.randInt(0, n - 1);
+        rand_index = random_.nextInt(0, n - 1);
         to = neurons_[rand_index];
     } while (checkEdgeExists(from, to));
 
-    auto edge = createEdge(from, to, random.rand(-1.0, 1.0));
+    auto edge = createEdge(from, to, random_.nextDouble(-1.0, 1.0));
     return edge;
 }
 
@@ -158,8 +157,7 @@ Edge* Net::randEdge() {
         return nullptr;
     }
 
-    RandomGenerator& random = RandomGenerator::instance(RandomGeneratorId::GENETIC);
-    size_t rand_edge_index = random.randInt(0, edges_.size() - 1);
+    size_t rand_edge_index = random_.nextInt(0, edges_.size() - 1);
     return edges_[rand_edge_index];
 }
 

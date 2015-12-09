@@ -25,7 +25,7 @@ std::shared_ptr<ObstaclePattern> ObstaclePatternFactory::createRandom(World& wor
         }
     };
 
-    int pattern_id = world.game()->random().nextInt(0, generators.size());
+    int pattern_id = world.game()->random().nextInt(0, generators.size() - 1);
     return generators[pattern_id](world);
 }
 

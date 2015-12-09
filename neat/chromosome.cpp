@@ -1,6 +1,7 @@
 #include "chromosome.h"
 
 #include <iostream>
+#include <assert.h>
 
 #include "common/random.h"
 #include "net.h"
@@ -55,8 +56,13 @@ void Chromosome::set_fitness(double fitness) {
 }
 
 void Chromosome::mutateWeights() {
+    auto step = conf_.mutate_weights_step;
     for (auto& e : net_->edges()) {
-        e->set_w(random_.nextDouble(-1.0, 1.0));
+        if (random_.nextDouble() < conf_.mutate_weights_petrurb_prob) {
+            e->set_w(e->w() + random_.nextDouble() * step * 2 - step);
+        } else {
+            e->set_w(random_.nextDouble(-1.0, 1.0));
+        }
     }
 }
 
@@ -77,6 +83,9 @@ void Chromosome::mutateAddConnection(InnovationNumberGetter* innov_getter) {
 void Chromosome::mutateAddNode(InnovationNumberGetter* innov_getter) {
     auto node = net_->createHiddenNeuron();
     auto edge = net_->randEdge();
+    if (edge == nullptr) {
+        return;
+    }
     edge->set_enabled(false);
 
     auto edge1 = net_->createEdge(edge->from(), node);
@@ -103,9 +112,6 @@ Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
 
     int max_innovation = std::max(ch1.net()->getMaxInnovation(), ch2.net()->getMaxInnovation());
     std::cout << "max_innovation = " << max_innovation << std::endl;
-    if (max_innovation > 100000) {
-        std::cout << "too big" << std::endl;
-    }
     for (int i = 1; i <= max_innovation; ++i) {
         const Edge* e1 = ch1.net()->getEdgeByInnovation(i);
         const Edge* e2 = ch2.net()->getEdgeByInnovation(i);
@@ -137,7 +143,7 @@ Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
 
         net->indexEdge(edge);
         if (!parent->is_enabled()) {
-            if (random.nextDouble() < conf.edge_enable_prob) {
+            if (random.nextDouble() < conf.crossover_edge_enable_prob) {
                 edge->set_enabled(true);
             } else {
                 edge->set_enabled(false);
@@ -146,6 +152,58 @@ Chromosome Chromosome::crossover(const Chromosome& ch1, const Chromosome& ch2) {
     }
 
     return Chromosome(random, conf, net);
+}
+
+double Chromosome::distance(const Chromosome& ch1, const Chromosome& ch2) {
+    const NeatConfig& conf = ch1.conf_;
+    uint32_t excess = 0;
+    uint32_t disjoint = 0;
+    double w_avg = 0;
+    uint32_t matched_genes = 0;
+    uint32_t n = std::max(ch1.net()->edges().size(), ch2.net()->edges().size());
+    if (n < 20) {
+        n = 1;
+    }
+
+    bool is_disjoint = false;
+
+    int min_innovation = std::min(ch1.net()->getMaxInnovation(), ch2.net()->getMaxInnovation());
+    int max_innovation = std::max(ch1.net()->getMaxInnovation(), ch2.net()->getMaxInnovation());
+    for (int i = 1; i <= min_innovation; ++i) {
+        const Edge* e1 = ch1.net()->getEdgeByInnovation(i);
+        const Edge* e2 = ch2.net()->getEdgeByInnovation(i);
+
+        if (e1 && e2) {
+            w_avg += std::abs(e1->w() - e2->w());
+            ++matched_genes;
+            is_disjoint = true;
+            continue;
+        } else if (e1 || e2) {
+            if (is_disjoint) {
+                ++disjoint;
+            } else {
+                ++excess;
+            }
+        } else {
+            continue;
+        }
+    }
+
+    for (int i = min_innovation + 1; i <= max_innovation; ++i) {
+        const Edge* e1 = ch1.net()->getEdgeByInnovation(i);
+        const Edge* e2 = ch2.net()->getEdgeByInnovation(i);
+
+        assert(!(e1 && e2));
+        if (e1 || e2) {
+            ++excess;
+        } else {
+            continue;
+        }
+    }
+
+    w_avg /= matched_genes;
+    double delta = conf.dist_excess_ratio * excess / n + conf.dist_disjoint_ratio * disjoint / n + conf.dist_avg_weights_raio * w_avg;
+    return delta;
 }
 
 

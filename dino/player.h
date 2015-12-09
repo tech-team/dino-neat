@@ -30,7 +30,7 @@ private:
 
     sf::Vector2f defaultPos_;
 
-    static constexpr float MIN_JUMP_SPEED = 30;
+    static constexpr float MIN_JUMP_SPEED = 60;
     static constexpr float MAX_JUMP_SPEED = 80;
 };
 

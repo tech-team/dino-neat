@@ -45,42 +45,55 @@ void Genetic::iteration() {
     evalPopulation();
     sortPopulation();
 
+    size_t maximum_population = std::min((size_t) conf_.population_size, population_.size());
+    population_.erase(population_.begin() + maximum_population, population_.end());
+
+    auto innov_getter = dynamic_cast<InnovationNumberGetter*>(this);
     for (auto& ch : population_) {
         if (random_.nextDouble() < conf_.mutate_weights_prob) {
             ch.mutateWeights();
         }
-        if (random_.nextDouble() < conf_.mutate_structure_prob) {
-            ch.mutateStructure(dynamic_cast<InnovationNumberGetter*>(this));
+        if (random_.nextDouble() < conf_.mutate_add_connection_prob) {
+            ch.mutateAddConnection(innov_getter);
         }
+        if (random_.nextDouble() < conf_.mutate_add_node_prob) {
+            ch.mutateAddNode(innov_getter);
+        }
+        ch.set_fitness(0);
     }
 
-    if (elapsed_iterations_ != 1) {
-        for (uint32_t i = 0; i < conf_.crossovers_count; ++i) {
-            std::cout << "crossover #" << i << std::endl;
-            int p1 = random_.nextInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
-            int p2 = random_.nextInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
+    for (uint32_t i = 0; i < conf_.crossovers_count; ++i) {
+        std::cout << "crossover #" << i << std::endl;
+        int p1 = random_.nextInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
+        int p2 = random_.nextInt(0, std::min((size_t) conf_.selection_count, population_.size()) - 1);
 
-            Chromosome child = Chromosome::crossover(population_.at(p1), population_.at(p2));
-            population_.emplace_back(std::move(child));
+        Chromosome ch = Chromosome::crossover(population_.at(p1), population_.at(p2));
+
+        if (random_.nextDouble() < conf_.mutate_weights_prob) {
+            ch.mutateWeights();
+        }
+        if (random_.nextDouble() < conf_.mutate_add_connection_prob) {
+            ch.mutateAddConnection(innov_getter);
+        }
+        if (random_.nextDouble() < conf_.mutate_add_node_prob) {
+            ch.mutateAddNode(innov_getter);
         }
 
-
-        sortPopulation();
-
-        size_t maximum_population = std::min((size_t) conf_.population_size, population_.size());
-        population_.erase(population_.begin() + maximum_population, population_.end());    
-    }    
+        population_.emplace_back(std::move(ch));
+    }
 }
 
 void Genetic::evalPopulation() {
     for (auto& ch : population_) {
-        ch.set_fitness(evalFitness(ch));
+        if (ch.fitness() <= 0) {
+            ch.set_fitness(evalFitness(ch));
+        }
     }
 }
 
 double Genetic::evalFitness(Chromosome& ch) {
     // start game
-    Game game(40);
+    Game game(60);
 
     game.subscribeOnUpdate([this, &ch, &game] () {
         // state
@@ -100,9 +113,6 @@ double Genetic::evalFitness(Chromosome& ch) {
         if (press_space) {
             event.type = sf::Event::KeyPressed;
             game.onKeyPressed(event);
-        } else {
-            event.type = sf::Event::KeyReleased;
-            game.onKeyReleased(event);
         }
     });
 

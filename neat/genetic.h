@@ -39,7 +39,7 @@ private:
 
     std::unordered_map<EdgeInfo, int> population_innovations_;
 
-    Random random_ = 1234;
+    Random random_;
 };
 
 #endif // GENETIC_H

@@ -9,7 +9,7 @@ Game::Game(int time_scale)
     : window_(sf::VideoMode(game_width_, game_height_, 32),
               "Dino NEAT",
               sf::Style::Titlebar | sf::Style::Close) {
-    window_.setFramerateLimit(30);
+    window_.setFramerateLimit(60);
 
     set_time_scale(time_scale);
     restart();

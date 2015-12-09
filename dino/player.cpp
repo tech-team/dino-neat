@@ -47,6 +47,7 @@ void Player::jumpStart() {
     if (state_ != State::JUMP_PREPARE) {
         state_ = State::JUMP_PREPARE;
         jumpClock_.restart();
+        jumpEnd();
     }
 }
 
@@ -54,7 +55,7 @@ void Player::jumpEnd() {
     if (state_ == State::JUMP_PREPARE) {
         initial_jump_speed_ = std::min(
                     MAX_JUMP_SPEED,
-                    jumpClock_.restart().asSeconds() * 100);
+                    jumpClock_.restart().asSeconds() * 200);
 
         if (initial_jump_speed_ < MIN_JUMP_SPEED)
             initial_jump_speed_ = MIN_JUMP_SPEED;

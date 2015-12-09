@@ -24,12 +24,13 @@ public:
 
     void mutateWeights();
     void mutateStructure(InnovationNumberGetter* innov_getter);
-    static Chromosome crossover(const Chromosome& ch1, const Chromosome& ch2);
-
-private:
     void mutateAddConnection(InnovationNumberGetter* innov_getter);
     void mutateAddNode(InnovationNumberGetter* innov_getter);
 
+    static Chromosome crossover(const Chromosome& ch1, const Chromosome& ch2);
+    static double distance(const Chromosome& ch1, const Chromosome& ch2);
+
+private:
     Net* net_;
     double fitness_ = 0;
 

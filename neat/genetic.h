@@ -10,8 +10,7 @@
 #include "neat_config.h"
 #include "common/random.h"
 
-class Genetic : public InnovationNumberGetter
-{
+class Genetic : public InnovationNumberGetter {
 public:
     using Population = std::vector<Chromosome>;
 
